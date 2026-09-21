@@ -1,0 +1,15 @@
+.venv/
+.local/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+*.pyc
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+*.ckpt
+*.npy
+*.npz
+.env

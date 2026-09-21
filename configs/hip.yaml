@@ -1,0 +1,15 @@
+seed: 20260921
+image_size: 224
+batch_size: 8
+warmup_steps: 500
+finetune_steps: 2500
+warmup_lr: 0.0001
+finetune_lr: 0.00001
+validate_every: 250
+validation_samples: 256
+rotation_degrees: 45
+screen_probability: 0.3
+checkpoint: .local/weights/ptrn_best_iou.h5
+data: .local/data
+backgrounds: .local/backgrounds
+run: .local/runs/b1

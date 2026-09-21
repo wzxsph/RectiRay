@@ -1,0 +1,22 @@
+seed: 20260921
+image_size: 224
+batch_size: 16
+warmup_steps: 200
+finetune_steps: 4800
+warmup_lr: 0.00005
+finetune_lr: 0.00001
+validate_every: 500
+decision_step: 1000
+validation_samples: 478
+rotation_degrees: 45
+screen_probability: 0.3
+mixture:
+  identity: 0.3
+  mild: 0.6
+  hard: 0.1
+checkpoint: .local/runs/b1/best.weights.h5
+data: .local/data
+backgrounds: .local/backgrounds
+run: .local/runs/b1-1
+baseline_name: b1
+candidate_name: b1-1
