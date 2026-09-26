@@ -4,6 +4,7 @@
 
 | 类型 | 文档 | 用途 |
 | --- | --- | --- |
+| 视觉说明 | [RectiRay 图表与生成说明](figures/README.md) | 中英文架构、几何、合成配方与公开合成效果图；包含来源和复现入口 |
 | 当前入口 | [复现指南](reproducibility.md)、[代码地图](code-map.md)、[关键权重与源码对应表](checkpoint-source-map.md) | 环境、资产绑定、父 2000 → 新分支、完整开发验证与模块职责；权重在分阶段私有备份中 |
 | 研究权重备份 | [空间头](../models/release-notes/backup-ptrn-spatial-v2-v1.0.0.md)、[完整流水线](../models/release-notes/backup-ptrn-pipeline-v1-v1.0.0.md)、[2000 步分支](../models/release-notes/backup-ptrn-step2000-branch-v1.0.0.md) | 三个私有 Pre-release 的来源、角色、限制与资产核验要求 |
 | 当前实现协议 | [可见平面 V3](partial-v3.md)、[并行流水线](pipeline-v1.md) | 模型与几何接口、训练/评估调度；以实际源码与检查点绑定为准 |

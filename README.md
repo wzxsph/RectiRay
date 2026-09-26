@@ -1,4 +1,6 @@
-# PTRN Hip
+# RectiRay
+
+**Geometry-aware X-ray photo rectification.**
 
 **From a smartphone photograph of a hip X-ray to one straightened image of the film that was actually captured.**
 
@@ -11,7 +13,7 @@
   <img src="docs/figures/examples/hero-missing-corner.png" alt="Synthetic hip radiograph photograph beside the portion rectified by branch +2250; a stacked version appears on narrow screens.">
 </picture>
 
-*A fixed synthetic example made from an audited public-source radiograph. Part of the film is outside the photograph; the output preserves what was captured and does not invent the missing anatomy. [Source and image audit](docs/figures/examples/CREDITS.md).*
+*A fixed synthetic example made from an audited public-source radiograph. Part of the film is outside the photograph; the output rectifies pixels from the captured portion and does not invent the missing anatomy. [Source and image audit](docs/figures/examples/CREDITS.md).*
 
 The pipeline has three jobs:
 
@@ -21,17 +23,32 @@ The pipeline has three jobs:
 
 Choose a starting point:
 
-- **See the result:** [six fixed synthetic examples](#six-synthetic-examples), including a difficult missing corner, a near-color edge, and an unchanged original.
+- **See the result:** [100 input/output pairs](#100-inputs--100-outputs) and [six detailed comparisons](#six-synthetic-examples).
 - **Inspect the implementation:** [code map](docs/code-map.md) and the [code-only checks](#reproduce).
 - **Reproduce with authorized assets:** [training and evaluation guide](docs/reproducibility.md). Source images and checkpoints are not bundled with Git.
 
+## 100 inputs → 100 outputs
+
+![One hundred fixed public-source synthetic photographs on the left, matched branch +2250 outputs on the right.](docs/figures/examples/contact-sheet-100.png)
+
+[Open the full-resolution comparison](docs/figures/examples/contact-sheet-100.png). Match the same number on each side. This visual set varies the scene around the **six already-audited public-source radiographs**; it does not contain 100 independent source films or any of the 47 private phone photos. The order is fixed before inference, and difficult or failed outputs remain visible. It is a demonstration of the +2250 research candidate, **not an independent real-photo benchmark**. [Sources and construction](docs/figures/README.md).
+
 ## How it works
 
-![PTRN Hip architecture: 224-pixel input, four DenseNet201 scales, spatial fusion, ordered corners, ratio correction, auxiliary mask, and a single sampling pass.](docs/figures/architecture.svg)
+![RectiRay architecture: 224-pixel input, four DenseNet201 scales, spatial fusion, ordered corners, ratio correction, auxiliary mask, and a single sampling pass.](docs/figures/architecture.svg)
 
 The network sees a photograph resized without stretching and padded to **224 × 224** pixels. DenseNet201 supplies four spatial feature scales; a 64-channel decoder fuses them before predicting corners in **top-left, top-right, bottom-right, bottom-left** order, in input pixel-center coordinates. A ratio residual adjusts the edge-derived log aspect ratio of the full reference plane. The visible-film mask helps during training but does not decide a second crop or act as an approval gate. Inputs use ImageNet channel normalization.
 
 The renderer intersects the predicted plane with the original photo, samples that photo **once**, and returns a validity mask for observed pixels. A predicted corner can sit outside the photo when the film is partially captured. The output can retain background near an uncertain edge; the model does not fill in unphotographed X-ray content. See the [visible-plane geometry contract](docs/partial-v3.md) for coordinates, clipping, and renderer details.
+
+<details>
+<summary>Why a missing corner does not always prevent rectification</summary>
+
+![The full reference plane can extend beyond the photo; only its photographed intersection supplies output pixels.](docs/figures/geometry.svg)
+
+The corner predictions describe a full plane. Image sampling uses only the part supported by the photograph. The hatched area is deliberately left invalid; estimating plane geometry is not reconstructing missing anatomy. This drawing illustrates the contract, not the accuracy of a prediction.
+
+</details>
 
 ## What we know
 
@@ -79,6 +96,8 @@ The branch begins with the verified pipeline **step-2000** model and Adam state,
 <details>
 <summary>Open the exact synthetic training recipe targets</summary>
 
+![Training targets for occupancy, missing area, and background families.](docs/figures/recipe.svg)
+
 These are **targets**, not measured frequencies of every realized training sample. Geometry feasibility and retries can shift the distribution. About 20% of all slots use the original-image keep path; the percentages below other than that keep rate are conditional on a photographed slot.
 
 | Component | Training recipe target |
@@ -101,6 +120,8 @@ This is a research implementation, not a published hip-radiograph paper or a cli
 The trained weights are controlled **private research backups**, not deployable model releases. Access to a backup does not establish redistribution rights for upstream initialization, images, or fine-tuned weights. Dataset-page licensing alone does not settle pixel text, privacy, or every downstream use. See [third-party terms](THIRD_PARTY.md) and the [checkpoint/source map](docs/checkpoint-source-map.md). The repository's [Apache-2.0 license](LICENSE) applies only to code and documentation we can license.
 
 ## Reproduce
+
+RectiRay is the project display name. The repository slug, `ptrn_hip` / `ptrn_pipeline` packages, CLI commands, checkpoint contracts and historical Release tags retain their existing names so past experiments remain reproducible.
 
 Code-only checks need Python 3.11 or 3.12, PyTorch, and Keras 3 with the PyTorch backend:
 

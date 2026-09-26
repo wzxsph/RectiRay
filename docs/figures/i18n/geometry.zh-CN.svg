@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="780" viewBox="0 0 1500 780" role="img" aria-labelledby="title desc">
+<title id="title">摆正已拍到的部分，保留未拍到区域的空缺</title><desc id="desc">Conceptual geometry diagram, not an image or measured model output. A full plane can extend beyond the photo; only observed support is sampled. Full-plane aspect ratio is distinct from the visible bounding canvas.</desc>
+<defs><style>text{font-family:"Noto Sans CJK SC","DejaVu Sans",sans-serif;fill:#172b35}.small{fill:#657781}</style>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#faf9f6"/><path d="M-3 3L3-3M0 12L12 0M9 15L15 9" stroke="#d56a46" stroke-width="1.3"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#657781"/></marker></defs>
+<rect width="1500" height="780" fill="#faf9f6"/>
+<text x="48" y="48" font-size="18" font-weight="700" text-anchor="start" style="fill:#087e8b">02 / 几何</text>
+<text x="48" y="98" font-size="36" font-weight="700" text-anchor="start" style="fill:#172b35">摆正已拍到的部分，保留未拍到区域的空缺</text>
+<text x="48" y="136" font-size="22" font-weight="400" text-anchor="start" style="fill:#657781">完整参考平面的几何，与照片中实际存在的影像，是两件事。</text>
+<line x1="48" y1="162" x2="1452" y2="162" stroke="#dbe1df" stroke-width="2"/>
+<text x="58" y="210" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">A  /  照片边界</text>
+<text x="560" y="210" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">B  /  可见交集</text>
+<text x="1050" y="210" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">C  /  摆正画布</text>
+<rect x="64" y="284" width="392" height="270" fill="#edece7" stroke="#657781" stroke-width="2"/>
+<polygon points="100,230 440,320 400,540 124,510" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="104.18207681365575" y1="278.79089615931724" x2="433.26285300506873" y2="357.05430847212165" stroke="#087e8b" stroke-width="1"/>
+<line x1="158.09319764327796" y1="245.37761114086769" x2="169.57546500070993" y2="514.9538548913815" stroke="#087e8b" stroke-width="1"/>
+<line x1="108.06861063464837" y1="324.1337907375643" x2="426.91604556321187" y2="391.9617494023344" stroke="#087e8b" stroke-width="1"/>
+<line x1="212.51037344398338" y1="259.78215767634856" x2="212.84251314696925" y2="519.6567949072793" stroke="#087e8b" stroke-width="1"/>
+<line x1="111.68986083499006" y1="366.38170974155065" x2="420.92660926609267" y2="424.9036490364904" stroke="#087e8b" stroke-width="1"/>
+<line x1="263.5897435897436" y1="273.3031674208145" x2="253.97219597786477" y2="524.1274126062897" stroke="#087e8b" stroke-width="1"/>
+<line x1="115.07209227811597" y1="405.84107657801985" x2="415.2651867606008" y2="456.04147281669543" stroke="#087e8b" stroke-width="1"/>
+<line x1="311.6292682926829" y1="286.019512195122" x2="293.1190727081138" y2="528.3825079030559" stroke="#087e8b" stroke-width="1"/>
+<line x1="118.23821339950372" y1="442.77915632754343" x2="409.90555052400055" y2="485.5194721179972" stroke="#087e8b" stroke-width="1"/>
+<line x1="356.8924680246329" y1="298.0009474182852" x2="330.4231511254019" y2="532.4372990353697" stroke="#087e8b" stroke-width="1"/>
+<line x1="121.2082957619477" y1="477.4301172227231" x2="404.8241965973535" y2="513.4669187145557" stroke="#087e8b" stroke-width="1"/>
+<line x1="399.61325966850825" y1="309.30939226519337" x2="366.0115606936416" y2="536.305604423222" stroke="#087e8b" stroke-width="1"/>
+<polygon points="100,230 304,284 104.629,284" fill="url(#hatch)" stroke="#d56a46" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="64" y1="284" x2="456" y2="284" stroke="#172b35" stroke-width="3"/>
+<circle cx="100" cy="230" r="6" fill="#087e8b"/>
+<text x="110" y="255" font-size="19" font-weight="700" text-anchor="start" style="fill:#087e8b">1</text>
+<circle cx="440" cy="320" r="6" fill="#087e8b"/>
+<text x="450" y="308" font-size="19" font-weight="700" text-anchor="start" style="fill:#087e8b">2</text>
+<circle cx="400" cy="540" r="6" fill="#087e8b"/>
+<text x="410" y="528" font-size="19" font-weight="700" text-anchor="start" style="fill:#087e8b">3</text>
+<circle cx="124" cy="510" r="6" fill="#087e8b"/>
+<text x="134" y="498" font-size="19" font-weight="700" text-anchor="start" style="fill:#087e8b">4</text>
+<text x="80" y="595" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">虚线角区：位于照片之外</text>
+<line x1="483" y1="403" x2="527" y2="403" stroke="#657781" stroke-width="2" marker-end="url(#arrow)"/>
+<defs><clipPath id="photo"><rect x="565" y="284" width="392" height="270"/></clipPath></defs>
+<rect x="565" y="284" width="392" height="270" fill="#edece7" stroke="#657781" stroke-width="2"/>
+<g clip-path="url(#photo)">
+<polygon points="601,230 941,320 901,540 625,510" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="605.1820768136557" y1="278.79089615931724" x2="934.2628530050688" y2="357.05430847212165" stroke="#087e8b" stroke-width="1"/>
+<line x1="659.0931976432779" y1="245.37761114086769" x2="670.5754650007099" y2="514.9538548913815" stroke="#087e8b" stroke-width="1"/>
+<line x1="609.0686106346484" y1="324.1337907375643" x2="927.9160455632118" y2="391.9617494023344" stroke="#087e8b" stroke-width="1"/>
+<line x1="713.5103734439834" y1="259.78215767634856" x2="713.8425131469693" y2="519.6567949072793" stroke="#087e8b" stroke-width="1"/>
+<line x1="612.68986083499" y1="366.38170974155065" x2="921.9266092660926" y2="424.9036490364904" stroke="#087e8b" stroke-width="1"/>
+<line x1="764.5897435897435" y1="273.3031674208145" x2="754.9721959778648" y2="524.1274126062897" stroke="#087e8b" stroke-width="1"/>
+<line x1="616.072092278116" y1="405.84107657801985" x2="916.2651867606008" y2="456.04147281669543" stroke="#087e8b" stroke-width="1"/>
+<line x1="812.6292682926829" y1="286.019512195122" x2="794.1190727081137" y2="528.3825079030559" stroke="#087e8b" stroke-width="1"/>
+<line x1="619.2382133995037" y1="442.77915632754343" x2="910.9055505240005" y2="485.5194721179972" stroke="#087e8b" stroke-width="1"/>
+<line x1="857.8924680246328" y1="298.0009474182852" x2="831.4231511254019" y2="532.4372990353697" stroke="#087e8b" stroke-width="1"/>
+<line x1="622.2082957619476" y1="477.4301172227231" x2="905.8241965973534" y2="513.4669187145557" stroke="#087e8b" stroke-width="1"/>
+<line x1="900.6132596685081" y1="309.30939226519337" x2="867.0115606936415" y2="536.305604423222" stroke="#087e8b" stroke-width="1"/>
+</g>
+<text x="576" y="595" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">只有可见交集内存在照片像素</text>
+<line x1="984" y1="403" x2="1028" y2="403" stroke="#657781" stroke-width="2" marker-end="url(#arrow)"/>
+<polygon points="1070,284 1430,284 1430,554 1070,554" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="1070.0" y1="322.57142857142856" x2="1430.0" y2="322.57142857142856" stroke="#087e8b" stroke-width="1"/>
+<line x1="1121.4285714285713" y1="284.0" x2="1121.4285714285713" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="1070.0" y1="361.1428571428571" x2="1430.0" y2="361.1428571428571" stroke="#087e8b" stroke-width="1"/>
+<line x1="1172.857142857143" y1="284.0" x2="1172.857142857143" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="1070.0" y1="399.7142857142857" x2="1430.0" y2="399.7142857142857" stroke="#087e8b" stroke-width="1"/>
+<line x1="1224.2857142857142" y1="284.0" x2="1224.2857142857142" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="1070.0" y1="438.2857142857143" x2="1430.0" y2="438.2857142857143" stroke="#087e8b" stroke-width="1"/>
+<line x1="1275.7142857142858" y1="284.0" x2="1275.7142857142858" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="1070.0" y1="476.8571428571429" x2="1430.0" y2="476.8571428571429" stroke="#087e8b" stroke-width="1"/>
+<line x1="1327.142857142857" y1="284.0" x2="1327.142857142857" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="1070.0" y1="515.4285714285714" x2="1430.0" y2="515.4285714285714" stroke="#087e8b" stroke-width="1"/>
+<line x1="1378.5714285714284" y1="284.0" x2="1378.5714285714284" y2="554.0" stroke="#087e8b" stroke-width="1"/>
+<polygon points="1070,284 1267.34,284 1070,326.863" fill="url(#hatch)" stroke="#d56a46" stroke-width="2" stroke-dasharray=""/>
+<line x1="1070" y1="256" x2="1430" y2="256" stroke="#657781" stroke-width="1.5"/>
+<text x="1250" y="243" font-size="20" font-weight="500" text-anchor="middle" style="fill:#657781">W</text>
+<line x1="1451" y1="284" x2="1451" y2="554" stroke="#657781" stroke-width="1.5"/>
+<text x="1466" y="427" font-size="20" font-weight="500" text-anchor="start" style="fill:#657781">H</text>
+<text x="1070" y="595" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">完整平面比例 r = W / H</text>
+<line x1="48" y1="631" x2="1452" y2="631" stroke="#dbe1df" stroke-width="2"/>
+<circle cx="63" cy="669" r="6" fill="#087e8b"/>
+<text x="80" y="677" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">实际拍到的影像</text>
+<rect x="385" y="657" width="24" height="24" fill="url(#hatch)" stroke="#d56a46" stroke-width="1"/>
+<text x="423" y="677" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">未拍到／无效区域</text>
+<text x="775" y="677" font-size="21" font-weight="500" text-anchor="start" style="fill:#172b35">原照片 RGB → 一次采样 → 输出图与有效掩码</text>
+<text x="48" y="735" font-size="20" font-weight="400" text-anchor="start" style="fill:#657781">仅为几何示意。可见部分的输出包围框，宽高比不一定等于完整参考平面的比例。</text>
+</svg>

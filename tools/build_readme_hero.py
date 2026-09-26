@@ -86,26 +86,25 @@ def build(locale: str, zh_font: tuple[Path, int] | None, output: Path) -> str:
     if not face_path.is_file():
         raise FileNotFoundError(face_path)
     heading, subheading, left_label, right_label, left_note, right_note = LABELS[locale]
-    canvas = Image.new("RGB", CANVAS_SIZE, "#101b29")
+    canvas = Image.new("RGB", CANVAS_SIZE, "#faf9f6")
     draw = ImageDraw.Draw(canvas)
-    fit_text(draw, (24, 17), heading, font(face_path, face_index, 30), 1052, "#f2f6f9")
-    fit_text(draw, (24, 62), subheading, font(face_path, face_index, 17), 1052, "#adc4d2")
+    fit_text(draw, (24, 17), heading, font(face_path, face_index, 30), 1052, "#172b35")
+    fit_text(draw, (24, 62), subheading, font(face_path, face_index, 17), 1052, "#657781")
     with Image.open(source) as reviewed:
         if reviewed.mode != "RGB" or reviewed.size != (1700, 720) or reviewed.info:
             raise ValueError("Reviewed source dimensions, mode or metadata changed")
         for idx, (box, x) in enumerate(zip(SOURCE_BOXES, DEST_X, strict=True)):
-            draw.rounded_rectangle((x - 10, 100, x + 502, 646), radius=12,
-                                   fill="#1c2d3d", outline="#5e7588", width=2)
+            draw.line((x - 10, 100, x + 502, 100), fill="#dbe1df", width=2)
             title = left_label if idx == 0 else right_label
             fit_text(draw, (x + 4, 111), title, font(face_path, face_index, 20),
-                     482, "#f0f6f8")
+                     482, "#172b35")
             pixels = reviewed.crop(box)
             canvas.paste(pixels, (x, DEST_Y))
             if canvas.crop((x, DEST_Y, x + 492, DEST_Y + 465)).tobytes() != pixels.tobytes():
                 raise ValueError("Hero changed an audited picture pixel")
             note = left_note if idx == 0 else right_note
             fit_text(draw, (x + 4, 623), note, font(face_path, face_index, 14),
-                     482, "#d8e9f1")
+                     482, "#657781")
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, format="PNG", compress_level=9)
     with Image.open(output) as check:
@@ -128,26 +127,25 @@ def build_mobile(locale: str, zh_font: tuple[Path, int] | None, output: Path) ->
     subtitle = ("固定合成示例 · 不补造未拍到的影像" if locale == "zh-CN"
                 else "Fixed synthetic example · no missing pixels generated")
     _, _, left_label, right_label, left_note, right_note = LABELS[locale]
-    canvas = Image.new("RGB", (540, 1240), "#101b29")
+    canvas = Image.new("RGB", (540, 1240), "#faf9f6")
     draw = ImageDraw.Draw(canvas)
-    fit_text(draw, (14, 15), title, font(face_path, face_index, 26), 512, "#f2f6f9")
-    fit_text(draw, (14, 56), subtitle, font(face_path, face_index, 16), 512, "#adc4d2")
+    fit_text(draw, (14, 15), title, font(face_path, face_index, 26), 512, "#172b35")
+    fit_text(draw, (14, 56), subtitle, font(face_path, face_index, 16), 512, "#657781")
     with Image.open(source) as reviewed:
         if reviewed.mode != "RGB" or reviewed.size != (1700, 720) or reviewed.info:
             raise ValueError("Reviewed source dimensions, mode or metadata changed")
         for idx, box in enumerate(SOURCE_BOXES):
             top = 100 if idx == 0 else 665
-            draw.rounded_rectangle((14, top, 526, top + 546), radius=12,
-                                   fill="#1c2d3d", outline="#5e7588", width=2)
+            draw.line((14, top, 526, top), fill="#dbe1df", width=2)
             fit_text(draw, (28, top + 11), left_label if idx == 0 else right_label,
-                     font(face_path, face_index, 20), 482, "#f0f6f8")
+                     font(face_path, face_index, 20), 482, "#172b35")
             pixels = reviewed.crop(box)
             image_y = top + 50
             canvas.paste(pixels, (24, image_y))
             if canvas.crop((24, image_y, 516, image_y + 465)).tobytes() != pixels.tobytes():
                 raise ValueError("Mobile hero changed an audited picture pixel")
             fit_text(draw, (28, top + 522), left_note if idx == 0 else right_note,
-                     font(face_path, face_index, 14), 482, "#d8e9f1")
+                     font(face_path, face_index, 14), 482, "#657781")
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, format="PNG", compress_level=9)
     with Image.open(output) as check:
