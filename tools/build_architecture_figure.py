@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the bilingual, source-audited PTRN V3 architecture illustration.
+"""Build the bilingual, source-audited RectiRay architecture illustration.
 
 This is a schematic of PartialModel.forward, SpatialModel._spatial_logits,
 RatioResidual.forward, and partial_geometry.rectify_visible. It never opens

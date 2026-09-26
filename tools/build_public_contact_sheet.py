@@ -14,7 +14,18 @@ Run with KERAS_BACKEND=torch and PYTHONPATH=src on a CUDA machine::
       --output-zh .local/contact-sheet100-rebuild/zh-CN.png \
       --local-report .local/contact-sheet100-rebuild/audit.local.json
 
-Use fresh output paths; existing images and audit files are never overwritten.
+To change captions on already reviewed sheets without importing the model or
+reading any source images, supply either the two reference PNGs or a fixed Git
+revision containing them::
+
+    python tools/build_public_contact_sheet.py --caption-only \
+      --reference-revision <baseline-commit> \
+      --output-en docs/figures/examples/contact-sheet-100.png \
+      --output-zh docs/figures/examples/zh-CN/contact-sheet-100.png \
+      --local-report .local/contact-sheet100/caption-audit.local.json
+
+Full inference needs fresh output paths. Caption-only mode atomically replaces
+the two requested sheets after comparing all 200 numbered tiles to references.
 No private phone photograph, case annotation or COCO photo is read.
 """
 
@@ -24,9 +35,11 @@ import argparse
 from collections import Counter
 from dataclasses import dataclass
 import hashlib
+from io import BytesIO
 import json
 import os
 from pathlib import Path
+import subprocess
 
 os.environ.setdefault("KERAS_BACKEND", "torch")
 
@@ -246,33 +259,70 @@ def fit_caption(draw: ImageDraw.ImageDraw, xy, value: str,
     draw.text(xy, value, font=face, fill=fill)
 
 
+def tile_boxes():
+    """Whole numbered cards, including IDs, not just the picture rectangles."""
+    for panel_x in (32, 1736):
+        grid_x = panel_x + (1672 - GRID_WIDTH) // 2
+        for slot in range(100):
+            x = grid_x + (slot % 10) * (TILE_WIDTH + TILE_GAP_X)
+            y = GRID_TOP + (slot // 10) * (TILE_HEIGHT + TILE_GAP_Y)
+            yield (x, y, x + TILE_WIDTH, y + TILE_HEIGHT)
+
+
+def tile_digest(image: Image.Image) -> str:
+    digest = hashlib.sha256()
+    for box in tile_boxes():
+        digest.update(image.crop(box).tobytes())
+    return digest.hexdigest()
+
+
+def draw_sheet_captions(canvas: Image.Image, *, chinese: bool,
+                        clear_existing: bool) -> None:
+    """Redraw text bands without touching any numbered image card."""
+    draw = ImageDraw.Draw(canvas)
+    if clear_existing:
+        draw.rectangle((0, 0, SIZE[0] - 1, 160), fill=BACKGROUND)
+        draw.rectangle((42, 171, 1696, 216), fill="#f2f5f3")
+        draw.rectangle((1746, 171, 3400, 216), fill="#f2f5f3")
+        draw.rectangle((0, 1860, SIZE[0] - 1, SIZE[1] - 1), fill=BACKGROUND)
+    fit_caption(draw, (32, 21), "RectiRay", size=42, max_width=800,
+                chinese=False, fill=INK)
+    subtitle = ("六张公开髋部 X 光片 · 100 组固定输入与输出" if chinese else
+                "100 fixed input/output examples from six public hip radiographs")
+    fit_caption(draw, (32, 79), subtitle, size=25, max_width=1900,
+                chinese=chinese, fill=INK)
+    context = ("20 次可信原片逐像素保留（底片重复） · 80 次模拟拍摄后展平" if chinese else
+               "20 trusted originals kept pixel-for-pixel (repeated) · 80 simulated captures straightened")
+    fit_caption(draw, (32, 119), context, size=18, max_width=2600,
+                chinese=chinese, fill="#50636a")
+    left_label = "输入" if chinese else "INPUT"
+    right_label = "RectiRay 输出" if chinese else "RECTIRAY OUTPUT"
+    fit_caption(draw, (50, 178), left_label, size=19, max_width=1600,
+                chinese=chinese, fill=TEAL)
+    fit_caption(draw, (1754, 178), right_label, size=19, max_width=1600,
+                chinese=chinese, fill=TEAL)
+    footer = ("K 原片直通 20 · F 近满幅 16 · P 轻度透视 16 · C 缺角 16 · B 近色融边 16 · S 屏幕干扰 16" if chinese else
+              "K keep 20 · F near-full 16 · P mild perspective 16 · C missing corner 16 · B near-color 16 · S screen 16")
+    fit_caption(draw, (32, 1871), footer, size=16, max_width=2600,
+                chinese=chinese, fill="#50636a")
+    caveat = ("非独立实拍验证" if chinese else "Not independent real-photo validation")
+    face = font(16, chinese=chinese)
+    width = draw.textbbox((0, 0), caveat, font=face)[2]
+    fit_caption(draw, (SIZE[0] - width - 32, 1871), caveat, size=16,
+                max_width=760, chinese=chinese, fill=CORAL)
+
+
 def sheet(inputs: list[Image.Image], outputs: list[Image.Image],
           fixed: tuple[Scene, ...], *, chinese: bool) -> Image.Image:
     if len(inputs) != 100 or len(outputs) != 100 or len(fixed) != 100:
         raise ValueError("All 100 input/output slots are required")
     canvas = Image.new("RGB", SIZE, BACKGROUND)
     draw = ImageDraw.Draw(canvas)
-    fit_caption(draw, (32, 21), "RectiRay", size=42, max_width=800,
-                chinese=False, fill=INK)
-    subtitle = ("六张公开髋部 X 光片 · 100 个固定场景" if chinese else
-                "100 fixed scenes from six public hip radiographs")
-    fit_caption(draw, (32, 79), subtitle, size=25, max_width=1700,
-                chinese=chinese, fill=INK)
-    context = ("20 次可信原片直通（底片重复） · 80 次模拟拍摄 · 分支 +2250" if chinese else
-               "20 trusted-original references (repeated) · 80 simulated captures · branch +2250")
-    fit_caption(draw, (32, 119), context, size=18, max_width=2400,
-                chinese=chinese, fill="#50636a")
     draw.rounded_rectangle((32, 163, 1704, 1859), radius=14,
                            fill="#f2f5f3", outline="#c8d7d5", width=2)
     draw.rounded_rectangle((1736, 163, 3408, 1859), radius=14,
                            fill="#f2f5f3", outline="#c8d7d5", width=2)
-    left_label = "输入 · 原片或模拟拍摄照片" if chinese else "INPUT · source or simulated photograph"
-    right_label = ("输出 · +2250 展平／可信原片旁路" if chinese else
-                   "OUTPUT · +2250 rectification / trusted keep")
-    fit_caption(draw, (50, 178), left_label, size=19, max_width=1600,
-                chinese=chinese, fill=TEAL)
-    fit_caption(draw, (1754, 178), right_label, size=19, max_width=1600,
-                chinese=chinese, fill=TEAL)
+    draw_sheet_captions(canvas, chinese=chinese, clear_existing=False)
     for panel_x, pictures in ((32, inputs), (1736, outputs)):
         grid_x = panel_x + (1672 - GRID_WIDTH) // 2
         for scene, picture in zip(fixed, pictures, strict=True):
@@ -289,20 +339,11 @@ def sheet(inputs: list[Image.Image], outputs: list[Image.Image],
             if picture.size != (150, 130):
                 raise ValueError("Thumbnail size differs")
             canvas.paste(picture, (x + 4, y + 23))
-    footer = ("K 原片直通 20 · F 近满幅 16 · P 轻度透视 16 · C 缺角 16 · B 近色融边 16 · S 屏幕干扰 16" if chinese else
-              "K keep 20 · F near-full 16 · P mild perspective 16 · C missing corner 16 · B near-color 16 · S screen 16")
-    fit_caption(draw, (32, 1871), footer, size=16, max_width=2600,
-                chinese=chinese, fill="#50636a")
-    caveat = ("非独立实拍验证" if chinese else "Not independent real-photo validation")
-    face = font(16, chinese=chinese)
-    width = draw.textbbox((0, 0), caveat, font=face)[2]
-    fit_caption(draw, (SIZE[0] - width - 32, 1871), caveat, size=16,
-                max_width=760, chinese=chinese, fill=CORAL)
     return canvas
 
 
-def save_plain_png(image: Image.Image, output: Path) -> str:
-    if output.exists():
+def save_plain_png(image: Image.Image, output: Path, *, replace: bool = False) -> str:
+    if output.exists() and not replace:
         raise FileExistsError("Contact sheet output already exists")
     output.parent.mkdir(parents=True, exist_ok=True)
     pending = output.with_name(output.name + ".tmp")
@@ -314,12 +355,80 @@ def save_plain_png(image: Image.Image, output: Path) -> str:
     return sha256(output)
 
 
+def reference_png(path: Path) -> tuple[Image.Image, str]:
+    data = path.read_bytes()
+    with Image.open(BytesIO(data)) as image:
+        if image.mode != "RGB" or image.size != SIZE or image.info or image.getexif():
+            raise ValueError("Reference sheet dimensions, mode or metadata differ")
+        return image.copy(), hashlib.sha256(data).hexdigest()
+
+
+def git_reference(revision: str, relative: str) -> tuple[Image.Image, str]:
+    raw = subprocess.run(["git", "show", f"{revision}:{relative}"], cwd=REPO,
+                         capture_output=True, check=True).stdout
+    with Image.open(BytesIO(raw)) as image:
+        if image.mode != "RGB" or image.size != SIZE or image.info or image.getexif():
+            raise ValueError("Git reference sheet dimensions, mode or metadata differ")
+        return image.copy(), hashlib.sha256(raw).hexdigest()
+
+
+def caption_only(args) -> None:
+    if args.reference_revision:
+        if args.reference_en or args.reference_zh:
+            raise ValueError("Use either reference PNGs or a Git revision")
+        en_ref, en_sha = git_reference(args.reference_revision,
+                                       "docs/figures/examples/contact-sheet-100.png")
+        zh_ref, zh_sha = git_reference(args.reference_revision,
+                                       "docs/figures/examples/zh-CN/contact-sheet-100.png")
+    else:
+        if args.reference_en is None or args.reference_zh is None:
+            raise ValueError("Caption-only mode needs both reference PNGs")
+        if args.output_en.resolve() == args.reference_en.resolve() or \
+           args.output_zh.resolve() == args.reference_zh.resolve():
+            raise ValueError("Reference and output must be separate files")
+        en_ref, en_sha = reference_png(args.reference_en)
+        zh_ref, zh_sha = reference_png(args.reference_zh)
+    public._ZH_FONT = public.resolve_zh_font(args.zh_font, args.zh_font_index)
+    new_en, new_zh = en_ref.copy(), zh_ref.copy()
+    draw_sheet_captions(new_en, chinese=False, clear_existing=True)
+    draw_sheet_captions(new_zh, chinese=True, clear_existing=True)
+    for reference, changed in ((en_ref, new_en), (zh_ref, new_zh)):
+        for box in tile_boxes():
+            if reference.crop(box).tobytes() != changed.crop(box).tobytes():
+                raise ValueError("Caption redraw changed a numbered image card")
+    if tile_digest(new_en) != tile_digest(new_zh):
+        raise ValueError("English and Chinese image cards differ")
+    en_digest = save_plain_png(new_en, args.output_en, replace=True)
+    zh_digest = save_plain_png(new_zh, args.output_zh, replace=True)
+    report = {
+        "mode": "caption-only; no model, inference or source images",
+        "reference_revision": args.reference_revision,
+        "reference_sha256": {"en": en_sha, "zh": zh_sha},
+        "output_sha256": {"en": en_digest, "zh": zh_digest},
+        "numbered_cards_identical_to_reference": 200,
+        "numbered_cards_shared_sha256": tile_digest(new_en),
+        "export_metadata_empty": True,
+        "status": "20 trusted originals, 80 simulated captures; image content unchanged",
+    }
+    args.local_report.parent.mkdir(parents=True, exist_ok=True)
+    if args.local_report.exists():
+        raise FileExistsError("Caption audit already exists")
+    args.local_report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    print(json.dumps(report, ensure_ascii=False), flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--av-root", type=Path, required=True)
-    parser.add_argument("--fraiwan-root", type=Path, required=True)
-    parser.add_argument("--bundle", type=Path, required=True)
-    parser.add_argument("--branch", type=Path, required=True)
+    parser.add_argument("--caption-only", action="store_true",
+                        help="Redraw captions on reviewed sheets without model or sources")
+    parser.add_argument("--reference-en", type=Path)
+    parser.add_argument("--reference-zh", type=Path)
+    parser.add_argument("--reference-revision",
+                        help="Git revision containing both reviewed reference sheets")
+    parser.add_argument("--av-root", type=Path)
+    parser.add_argument("--fraiwan-root", type=Path)
+    parser.add_argument("--bundle", type=Path)
+    parser.add_argument("--branch", type=Path)
     parser.add_argument("--output-en", type=Path, required=True)
     parser.add_argument("--output-zh", type=Path, required=True)
     parser.add_argument("--local-report", type=Path, required=True)
@@ -330,9 +439,24 @@ def main() -> None:
         parser.error("English and Chinese outputs must differ")
     if not args.local_report.resolve().is_relative_to(REPO / ".local"):
         parser.error("Audit report must stay under the ignored .local directory")
-    for output in (args.output_en, args.output_zh, args.local_report):
+    if args.local_report.exists():
+        raise FileExistsError("Audit output already exists; preserve the existing audit")
+    if args.caption_only:
+        if any(getattr(args, key) is not None for key in
+               ("av_root", "fraiwan_root", "bundle", "branch")):
+            parser.error("Caption-only mode does not accept source or model assets")
+        caption_only(args)
+        return
+    if args.reference_en or args.reference_zh or args.reference_revision:
+        parser.error("Reference sheets are only used with --caption-only")
+    missing = [key for key in ("av_root", "fraiwan_root", "bundle", "branch")
+               if getattr(args, key) is None]
+    if missing:
+        parser.error("Full generation requires " + ", ".join("--" + x.replace("_", "-")
+                                                        for x in missing))
+    for output in (args.output_en, args.output_zh):
         if output.exists():
-            raise FileExistsError("Output already exists; preserve the existing audit")
+            raise FileExistsError("Full-generation output already exists")
     public.import_training_dependencies()
     public._ZH_FONT = public.resolve_zh_font(args.zh_font, args.zh_font_index)
     preflight(args.bundle.resolve(), args.branch.resolve())

@@ -5,6 +5,7 @@
 <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#657781"/></marker></defs>
 <rect width="1500" height="600" fill="#faf9f6"/>
 <text x="48" y="48" font-size="18" font-weight="700" text-anchor="start" style="fill:#087e8b">05 / 开发集结果</text>
+<text x="1452" y="48" font-size="20" font-weight="700" text-anchor="end" style="fill:#172b35">RectiRay</text>
 <text x="48" y="98" font-size="36" font-weight="700" text-anchor="start" style="fill:#172b35">少切掉一些片区，同时多留一些背景</text>
 <text x="48" y="136" font-size="22" font-weight="400" text-anchor="start" style="fill:#657781">同一批 4,589 个已暴露合成拍摄视图 · 均值 · 两项均越低越好</text>
 <line x1="48" y1="162" x2="1452" y2="162" stroke="#dbe1df" stroke-width="2"/>

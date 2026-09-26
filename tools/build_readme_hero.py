@@ -1,8 +1,9 @@
-"""Build the English and Chinese README teaser from reviewed public panels.
+"""Build the English and Chinese RectiRay teaser from reviewed public pixels.
 
-Only already-published synthetic example pixels are copied. No model, source
-radiograph, private data bundle, or GPU is required. Set --zh-font on systems
-without Noto Sans CJK SC installed.
+The default path copies a clean synthetic input and the existing case-03 output.
+--av-root rebuilds only the clean input from the same public source and seed;
+it requires synthesis dependencies, but never loads a model or runs inference.
+Set --zh-font on systems without Noto Sans CJK SC installed.
 """
 
 from __future__ import annotations
@@ -22,6 +23,8 @@ SOURCE_SHA256 = {
     "zh-CN": "1bb0d6faa354bf4c81a42784817e9486e35c7782569f3f1282b0c77cb6a2c152",
 }
 SOURCE_BOXES = ((54, 170, 546, 635), (1154, 170, 1646, 635))
+CLEAN_INPUT = EXAMPLES / "hero-input.png"
+CLEAN_PIXEL_SHA256 = "b64c6c6b078f574c1e568b59d69f933ae69afe4035be925c8d1e040f6e97bbe9"
 DEST_X = (34, 574)
 DEST_Y = 150
 CANVAS_SIZE = (1100, 670)
@@ -29,20 +32,51 @@ LABELS = {
     "en": (
         "From phone photo to rectified radiograph",
         "Fixed synthetic example · missing image content is not generated",
-        "Input photograph",
-        "Rectified output (+2250)",
-        "White: reference · cyan: parent · orange: +2250",
+        "Input",
+        "RectiRay output",
+        "Same fixed scene, without corner overlays",
         "Checkerboard: area outside the photograph",
     ),
     "zh-CN": (
         "从手机照片提取摆正的 X 光片",
         "固定合成示例 · 未拍到的影像内容不会被补造",
-        "输入照片",
-        "展平输出（+2250）",
-        "白：参考角点 · 青：父模型 · 橙：+2250",
+        "输入",
+        "RectiRay 输出",
+        "同一固定场景，不叠加角点框",
         "棋盘格：原照片未拍到的区域",
     ),
 }
+
+
+def rebuild_clean_input(av_root: Path) -> None:
+    """Recreate case 03 before annotation; leave its stored output untouched."""
+    import build_public_examples as examples
+    from ptrn_hip.data import read_rgb
+    from ptrn_hip.partial_synthesis import STEP2000_SCENE, sample
+
+    # safe_source needs only image decoding; avoid the model import helper.
+    examples.read_rgb = read_rgb
+    case = examples.CASES[2]
+    paths = examples.source_paths(av_root, 2417)
+    source = examples.safe_source(paths[case.ordinal], case.dataset)
+    view = sample(source, case.ordinal, 2, seed=case.seed, domain="train",
+                  scene_version=STEP2000_SCENE, capture_seed=case.seed + 1000,
+                  occupancy_bin_v2=0, **case.options)
+    pixels = examples.fit_image(view.photo, 492, 465)
+    if sha256(pixels.tobytes()).hexdigest() != CLEAN_PIXEL_SHA256:
+        raise ValueError("Recreated scene differs from the audited clean input")
+    pixels.save(CLEAN_INPUT, format="PNG", compress_level=9)
+
+
+def picture_pixels(reviewed: Image.Image, index: int) -> Image.Image:
+    if index == 1:
+        return reviewed.crop(SOURCE_BOXES[1])
+    with Image.open(CLEAN_INPUT) as clean:
+        if clean.mode != "RGB" or clean.size != (492, 465) or clean.info:
+            raise ValueError("Clean input dimensions, mode or metadata changed")
+        if sha256(clean.tobytes()).hexdigest() != CLEAN_PIXEL_SHA256:
+            raise ValueError("Clean input pixels differ from the audited scene")
+        return clean.copy()
 
 
 def resolve_zh_font(explicit: Path | None, face_index: int | None) -> tuple[Path, int]:
@@ -98,7 +132,7 @@ def build(locale: str, zh_font: tuple[Path, int] | None, output: Path) -> str:
             title = left_label if idx == 0 else right_label
             fit_text(draw, (x + 4, 111), title, font(face_path, face_index, 20),
                      482, "#172b35")
-            pixels = reviewed.crop(box)
+            pixels = picture_pixels(reviewed, idx)
             canvas.paste(pixels, (x, DEST_Y))
             if canvas.crop((x, DEST_Y, x + 492, DEST_Y + 465)).tobytes() != pixels.tobytes():
                 raise ValueError("Hero changed an audited picture pixel")
@@ -139,7 +173,7 @@ def build_mobile(locale: str, zh_font: tuple[Path, int] | None, output: Path) ->
             draw.line((14, top, 526, top), fill="#dbe1df", width=2)
             fit_text(draw, (28, top + 11), left_label if idx == 0 else right_label,
                      font(face_path, face_index, 20), 482, "#172b35")
-            pixels = reviewed.crop(box)
+            pixels = picture_pixels(reviewed, idx)
             image_y = top + 50
             canvas.paste(pixels, (24, image_y))
             if canvas.crop((24, image_y, 516, image_y + 465)).tobytes() != pixels.tobytes():
@@ -156,6 +190,8 @@ def build_mobile(locale: str, zh_font: tuple[Path, int] | None, output: Path) ->
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--av-root", type=Path,
+                        help="Optionally rebuild the clean input from the authorized AV-DDH v2 tree; no inference")
     parser.add_argument("--output-en", type=Path,
                         default=EXAMPLES / "hero-missing-corner.png")
     parser.add_argument("--output-zh", type=Path,
@@ -167,6 +203,8 @@ def main() -> None:
     parser.add_argument("--zh-font", type=Path)
     parser.add_argument("--zh-font-index", type=int)
     args = parser.parse_args()
+    if args.av_root is not None:
+        rebuild_clean_input(args.av_root)
     zh_font = resolve_zh_font(args.zh_font, args.zh_font_index)
     for locale, path, mobile_path in (
         ("en", args.output_en, args.output_en_mobile),

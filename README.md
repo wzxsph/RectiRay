@@ -1,142 +1,47 @@
 # RectiRay
 
-**Geometry-aware X-ray photo rectification.**
+**Turn a smartphone photograph of a hip X-ray into one straightened image of the part that was actually photographed.**
 
-**From a smartphone photograph of a hip X-ray to one straightened image of the film that was actually captured.**
+English · [简体中文](i18n/README.zh-CN.md)
 
-[English](README.md) · [简体中文](i18n/README.zh-CN.md)
+> **Research prototype.** Synthetic examples and exposed development data inform this model. Independent real-photo and clinical validation are pending; the application model is unchanged.
 
-> **Research status:** Branch **+2250** is a candidate selected using previously viewed synthetic and real photographs. It has not passed independent real-photo or clinical validation, and it has not replaced the application model.
+## Input → output
 
 <picture>
   <source media="(max-width: 600px)" srcset="docs/figures/examples/hero-missing-corner-mobile.png">
-  <img src="docs/figures/examples/hero-missing-corner.png" alt="Synthetic hip radiograph photograph beside the portion rectified by branch +2250; a stacked version appears on narrow screens.">
+  <img src="docs/figures/examples/hero-missing-corner.png" alt="A synthetic photograph of a hip radiograph beside its straightened output; a stacked layout is used on narrow screens.">
 </picture>
 
-*A fixed synthetic example made from an audited public-source radiograph. Part of the film is outside the photograph; the output rectifies pixels from the captured portion and does not invent the missing anatomy. [Source and image audit](docs/figures/examples/CREDITS.md).*
+*A fixed example made from an audited [public-source radiograph](docs/figures/examples/CREDITS.md). A corner is outside the photograph: RectiRay straightens the pixels it can see and leaves the unphotographed area empty. It does not draw missing anatomy.*
 
-The pipeline has three jobs:
+![One hundred numbered synthetic inputs on the left and their matching outputs on the right.](docs/figures/examples/contact-sheet-100.png)
 
-1. **Find the film.** Predict its four ordered corners and the width-to-height ratio of its full reference plane, even when a corner lies outside the photo.
-2. **Straighten the captured part.** Map the visible portion into one canvas by sampling the original photograph once. Pixels that were never photographed remain invalid; they are not reconstructed.
-3. **Leave trusted originals alone.** A digital original with verified provenance can be kept pixel for pixel. The network cannot infer that provenance merely because an image looks flat.
-
-Choose a starting point:
-
-- **See the result:** [100 input/output pairs](#100-inputs--100-outputs) and [six detailed comparisons](#six-synthetic-examples).
-- **Inspect the implementation:** [code map](docs/code-map.md) and the [code-only checks](#reproduce).
-- **Reproduce with authorized assets:** [training and evaluation guide](docs/reproducibility.md). Source images and checkpoints are not bundled with Git.
-
-## 100 inputs → 100 outputs
-
-![One hundred fixed public-source synthetic photographs on the left, matched branch +2250 outputs on the right.](docs/figures/examples/contact-sheet-100.png)
-
-[Open the full-resolution comparison](docs/figures/examples/contact-sheet-100.png). Match the same number on each side. This visual set varies the scene around the **six already-audited public-source radiographs**; it does not contain 100 independent source films or any of the 47 private phone photos. The order is fixed before inference, and difficult or failed outputs remain visible. It is a demonstration of the +2250 research candidate, **not an independent real-photo benchmark**. [Sources and construction](docs/figures/README.md).
+[Open the 100 pairs at full resolution](docs/figures/examples/contact-sheet-100.png) and match numbers across columns. They use **six audited public radiographs** in 100 fixed scenes, not 100 separate source films. Difficult outputs remain. No private phone photographs appear here; this is a visual demonstration, not an independent accuracy test. [Figure audit](docs/figures/README.md).
 
 ## How it works
 
-![RectiRay architecture: 224-pixel input, four DenseNet201 scales, spatial fusion, ordered corners, ratio correction, auxiliary mask, and a single sampling pass.](docs/figures/architecture.svg)
+1. **Locate the X-ray.** A network predicts four corners and the whole film plane's width-to-height ratio, including corners beyond a partial photo.
+2. **Straighten what is visible.** The predicted geometry guides a single sampling operation on the **original-resolution photograph**. The output includes a mask showing which pixels were actually observed; missing image content is never generated.
+3. **Protect verified originals.** A digital original with trustworthy provenance follows a pixel-exact keep path. The network does not decide provenance from appearance alone.
 
-The network sees a photograph resized without stretching and padded to **224 × 224** pixels. DenseNet201 supplies four spatial feature scales; a 64-channel decoder fuses them before predicting corners in **top-left, top-right, bottom-right, bottom-left** order, in input pixel-center coordinates. A ratio residual adjusts the edge-derived log aspect ratio of the full reference plane. The visible-film mask helps during training but does not decide a second crop or act as an approval gate. Inputs use ImageNet channel normalization.
+![RectiRay architecture: four DenseNet201 feature scales feed a spatial corner predictor, a ratio estimate and an auxiliary visible-region mask; rendering reads the original photograph.](docs/figures/architecture.svg)
 
-The renderer intersects the predicted plane with the original photo, samples that photo **once**, and returns a validity mask for observed pixels. A predicted corner can sit outside the photo when the film is partially captured. The output can retain background near an uncertain edge; the model does not fill in unphotographed X-ray content. See the [visible-plane geometry contract](docs/partial-v3.md) for coordinates, clipping, and renderer details.
+The model uses a **224 × 224** aspect-preserving, padded input. DenseNet201 features are fused spatially to predict the corners; a separate small component estimates the full-plane ratio. The visible-region mask helps training but never performs a second crop. [Geometry details](docs/partial-v3.md) and the [code map](docs/code-map.md) explain the exact interfaces.
 
-<details>
-<summary>Why a missing corner does not always prevent rectification</summary>
+## How it was trained
 
-![The full reference plane can extend beyond the photo; only its photographed intersection supplies output pixels.](docs/figures/geometry.svg)
+1. **Prepare the sources.** The local inventory holds **4,620 files** from [MTDDH](https://www.nature.com/articles/s41597-025-05146-x), [AV-DDH v2](https://data.mendeley.com/datasets/4gvcb6gmh2/2) and [Fraiwan DDH X-ray v2](https://data.mendeley.com/datasets/jf3pv98m9g/2): **4,114 for training, 478 for exposed development, and 28 quarantined** after duplicate or similarity review. These are file counts; patient independence is not established.
+2. **Make training photographs.** Unchanged source files become simulated screen or film captures: mostly large, complete films, with some rotation, perspective, modest missing edges, near-color backgrounds, reflections and blur. The background pool has 4,400 COCO photos and 1,100 generated interfaces. Training also includes unchanged originals; pixel-exact keeping still requires verified provenance. The [scene diagram](docs/figures/synthesis.svg) and [recipe audit](docs/figures/README.md) distinguish targets from realized samples.
+3. **Fit the geometry model.** At 224 pixels and batch 64, Adam (head rate **1 × 10⁻⁴**) trains the spatial decoder and output layers; DenseNet201 and BatchNorm stay frozen. Supervision covers corners, plane ratio, valid geometry and an auxiliary visible-film mask. The loss gives **missed visible film more weight than extra background**, matching the goal of retaining photographed anatomy.
+4. **Check on fixed scenes.** Each development file has 12 frozen scenes (**5,736 views**) so models face the same synthetic questions. Real phone photos were also reviewed, but lack paired boundary truth and cannot serve as independent validation.
 
-The corner predictions describe a full plane. Image sampling uses only the part supported by the photograph. The hatched area is deliberately left invalid; estimating plane geometry is not reconstructing missing anatomy. This drawing illustrates the contract, not the accuracy of a prediction.
+## Current measured result
 
-</details>
+On **4,589 photographed views from that exposed synthetic development set**, mean **additional crop of visible film was 2.25%** and mean **extra background inside the predicted region was 3.54%**. Both measurements use synthetic ground truth. Keep-original views are excluded from this denominator so they do not dilute photograph behavior. These values are not a real-photo success rate. [Definitions, historical comparisons and limitations](docs/figures/README.md).
 
-## What we know
+## Reproduce and sources
 
-On the same **4,589 photographed views from an exposed synthetic development set**, branch +2250 traded a little more background for less visible-film loss than branch +2000:
+The code and synthetic-only checks are available here; full training or evaluation needs separately authorized source images, backgrounds and weights that are **not in Git**. Start with the [reproduction guide](docs/reproducibility.md) for setup, commands and complete-development checks. Research weights remain private backups, not deployable or clinically validated models.
 
-| Measure, mean across the same 4,589 views | Branch +2000 | Branch +2250 |
-| --- | ---: | ---: |
-| **Additional crop** of visible film | 3.43% | **2.25%** |
-| **Extra background** inside the predicted region | **2.54%** | 3.54% |
-
-“Additional crop” means visible film missed by the predicted region; “extra background” means predicted area outside the true visible-film mask. Both use **synthetic ground truth**. The full fixed development set has 5,736 views, but its keep-original views are excluded here so they do not dilute photographed-image behavior. The set and previously reviewed real photos influenced model selection; these numbers are **not independent real-photo accuracy** or a clinical result.
-
-![The exposed synthetic development trade-off between visible-film crop and residual background.](docs/figures/tradeoff.svg)
-
-### Six synthetic examples
-
-The fixed cases cover near-full-frame capture, mild perspective, a missing corner, a near-color boundary, screen interference, and a trusted original. They remain in their predetermined order, including imperfect outcomes. The input panel shows the known plane and predicted corners; the other panels show parent step 2000 and branch +2250 under the same reviewed renderer. In the original case, verified source provenance triggers a pixel-exact keep path; the network's corners are diagnostic only.
-
-<details>
-<summary>Open the six-case input and output comparison</summary>
-
-![Six fixed synthetic cases showing input, parent output, and branch +2250 output.](docs/figures/examples/overview.webp)
-
-</details>
-
-The radiographs in these illustrations come only from the two versioned datasets marked CC BY 4.0 below; the backgrounds are procedural. Both checkpoints use the same reviewed V3 area-resampling renderer for this comparison. That renderer differs from the training-time source, so the illustrations are not pixel-identical replays of training. [Example credits, seeds, modifications, and pixel/metadata audit](docs/figures/examples/CREDITS.md).
-
-## Data and training
-
-The inventory counts **source files, not patients**. Its split preserves historical development files and quarantines 28 duplicate or similarity-review candidates. It is **not known to be patient-independent**.
-
-| Source collection | Files in local inventory | Use in repository illustrations |
-| --- | ---: | --- |
-| [MTDDH](https://www.nature.com/articles/s41597-025-05146-x) | 1,849 | Original-version redistribution terms not directly verified; no MTDDH image used. |
-| [AV-DDH v2](https://data.mendeley.com/datasets/4gvcb6gmh2/2) | 2,417 | Source page states CC BY 4.0; illustrated files reviewed individually. |
-| [Fraiwan DDH X-ray v2](https://data.mendeley.com/datasets/jf3pv98m9g/2) | 354 | Source page states CC BY 4.0; illustrated files reviewed individually. |
-| **Total** | **4,620** | **4,114 training · 478 exposed development · 28 quarantine** |
-
-Training generates photographs with variable film size, perspective, partial capture, near-color edges, backgrounds, and camera/screen artifacts. Its local background pool uses **4,400 COCO 2017 photos** and **1,100 procedural interface images**. COCO photos retain their individual Flickr terms and are not redistributed here. The fixed development set keeps the earlier `partial-v3` scene recipe: **12 scenes per development file = 5,736 views**. The newer recipe changes **training only**, so the checkpoint comparison uses the same frozen scenes.
-
-![Synthetic-scene construction from a source radiograph, geometry, appearance, missing-area variation, and background.](docs/figures/synthesis.svg)
-
-The branch begins with the verified pipeline **step-2000** model and Adam state, then uses a **new deterministic sample cursor** for up to **3,000 additional updates**. Thus “+2250” means 2,250 updates *after* that parent checkpoint, not absolute step 2250 of the old run. Checkpoints are saved every 250 updates. Training uses 224-pixel input, actual and effective batch **64**, Adam head learning rate **1 × 10⁻⁴**, and a frozen DenseNet201 encoder and BatchNorm at `stage=head`. Losses cover corners, full-plane ratio, geometry validity, auxiliary visible mask, and missed visible film with a greater initial cost than extra background. There is no blanket penalty for a reference corner falling outside the photo. Checkpoints bind the recipe, source, assets, optimizer and RNG state, and consumed sample cursor for exact resume auditing.
-
-<details>
-<summary>Open the exact synthetic training recipe targets</summary>
-
-![Training targets for occupancy, missing area, and background families.](docs/figures/recipe.svg)
-
-These are **targets**, not measured frequencies of every realized training sample. Geometry feasibility and retries can shift the distribution. About 20% of all slots use the original-image keep path; the percentages below other than that keep rate are conditional on a photographed slot.
-
-| Component | Training recipe target |
-| --- | --- |
-| Original-image keep path | About 20% of all views; photographed views about 80%. |
-| Film area within photograph | 90–98%: 20%; 75–90%: 30%; 50–75%: 35%; 30–50%: 10%; 10–30%: 5%. |
-| Missing area of photographed reference plane | None: 80%; 1–3%: 12%; >3–8%: 6%; >8–15%: 2%. |
-| Background family | Procedural viewer/interface: 40%; COCO context: 25%; near-color: 25%; mixed-color: 10%. |
-| Source pre-crop | 12.5% of photographed views; target loss of 5–10% of source area. |
-| Capture appearance | Screen or physical film, with independently sampled interference and edge blending. |
-
-Source pre-crop defines a new complete reference plane. A crop *after* photographing instead makes part of that plane unobserved; the renderer cannot recover its missing content. The train-only probabilities and frozen development path are implemented in [partial_data.py](src/ptrn_hip/partial_data.py).
-
-</details>
-
-## Availability and limitations
-
-This is a research implementation, not a published hip-radiograph paper or a clinical tool. The **478 development files**, all **5,736 fixed scenes**, and **47 real photographs** have been viewed during research. Those photos lack reliable paired reference boundaries, so their true crop loss cannot be measured; their images and per-case review pages remain local. Ambiguous or partially visible edges can still leave background or introduce geometric distortion. The current checkpoint has not passed an independent real-photo study, and the application model is unchanged.
-
-The trained weights are controlled **private research backups**, not deployable model releases. Access to a backup does not establish redistribution rights for upstream initialization, images, or fine-tuned weights. Dataset-page licensing alone does not settle pixel text, privacy, or every downstream use. See [third-party terms](THIRD_PARTY.md) and the [checkpoint/source map](docs/checkpoint-source-map.md). The repository's [Apache-2.0 license](LICENSE) applies only to code and documentation we can license.
-
-## Reproduce
-
-RectiRay is the project display name. The repository slug, `ptrn_hip` / `ptrn_pipeline` packages, CLI commands, checkpoint contracts and historical Release tags retain their existing names so past experiments remain reproducible.
-
-Code-only checks need Python 3.11 or 3.12, PyTorch, and Keras 3 with the PyTorch backend:
-
-```bash
-uv venv --python 3.12
-uv pip install --python .venv/bin/python -e '.[dev]'
-CUDA_VISIBLE_DEVICES='' KERAS_BACKEND=torch .venv/bin/python -m pytest -q
-```
-
-Training and full fixed-development evaluation additionally require separately **authorized local source images, backgrounds, initialization and parent checkpoints**, and SHA-checked manifests. None are in Git. The [reproduction guide](docs/reproducibility.md) gives the actual commands, checkpoint/source binding and **5,736-view** completion checks. `--eval-limit` is diagnostic only; private Pre-releases, where accessible, are not deployment registrations.
-
-## Attribution
-
-- Chong et al., [*Image Projective Transformation Rectification with Synthetic Data for Smartphone-captured Chest X-ray Photos Classification*](https://arxiv.org/abs/2210.05954), arXiv:2210.05954. The original PTRN study concerns chest photographs; this is a separate hip-radiograph implementation.
-- Haddad et al., [AV-DDH v2](https://data.mendeley.com/datasets/4gvcb6gmh2/2), DOI: 10.17632/4gvcb6gmh2.2, CC BY 4.0 as stated on the source page.
-- Fraiwan et al., [DDH X-ray images v2](https://data.mendeley.com/datasets/jf3pv98m9g/2), DOI: 10.17632/jf3pv98m9g.2, CC BY 4.0 as stated on the source page.
-- [MTDDH dataset publication](https://www.nature.com/articles/s41597-025-05146-x); original-version redistribution terms have not been directly verified for repository illustrations.
-- COCO Consortium, [dataset terms](https://github.com/cocodataset/cocodataset.github.io/blob/master/dataset/termsofuse.htm); COCO photographs follow their individual Flickr terms.
+The six illustrated films come only from AV-DDH v2 and Fraiwan v2, whose source pages state **CC BY 4.0**; each illustration underwent a separate pixel and metadata review. MTDDH's original-version redistribution terms have not been directly verified, so it is absent from repository illustrations. COCO photographs retain their individual Flickr terms and are not redistributed here. See [figure credits](docs/figures/examples/CREDITS.md), [third-party terms](THIRD_PARTY.md), and the [original PTRN chest-radiograph study](https://arxiv.org/abs/2210.05954). The [Apache-2.0 license](LICENSE) covers only code and documentation we can license.
