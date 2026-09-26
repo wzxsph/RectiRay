@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="700" viewBox="0 0 1600 700" role="img" aria-labelledby="title description">
+  <title id="title">Branch checkpoint tradeoff on exposed synthetic development photographs</title>
+  <desc id="description">For the same 4,589 synthetic photographed development views, branch checkpoint plus 2000 has mean additional film loss 3.43 percent and mean residual background 2.54 percent. Branch checkpoint plus 2250 has mean additional film loss 2.25 percent and mean residual background 3.54 percent. This is an exposed development-set comparison, not independent real-photo accuracy.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f7f9fc}.card{fill:#fff;stroke:#c6d2dc;stroke-width:2}.ink{fill:#18324c;font-family:Arial,Helvetica,sans-serif}.muted{fill:#53687a;font-family:Arial,Helvetica,sans-serif}
+      .h1{font-size:31px;font-weight:700}.h2{font-size:22px;font-weight:700}.body{font-size:17px}.small{font-size:15px}.value{font-size:22px;font-weight:700}
+      .grid{stroke:#d8e2ea;stroke-width:1.5}.axis{stroke:#72869a;stroke-width:2}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="700"/>
+  <text class="ink h1" x="55" y="62">Checkpoint tradeoff on photographed development views</text>
+  <text class="muted body" x="55" y="98">Same exposed synthetic development group · n = 4,589 · identical metric definitions</text>
+  <line x1="55" y1="122" x2="1545" y2="122" stroke="#c8d4df" stroke-width="2"/>
+
+  <rect class="card" x="55" y="160" width="720" height="425" rx="17"/>
+  <rect x="55" y="160" width="720" height="10" rx="5" fill="#1c658e"/>
+  <text class="ink h2" x="84" y="207">Mean additional film lost</text>
+  <text class="muted small" x="84" y="233">Lower means more of the source film survives rectification</text>
+  <g>
+    <line class="grid" x1="232" y1="261" x2="232" y2="437"/>
+    <line class="grid" x1="321" y1="261" x2="321" y2="437"/>
+    <line class="grid" x1="410" y1="261" x2="410" y2="437"/>
+    <line class="grid" x1="499" y1="261" x2="499" y2="437"/>
+    <line class="grid" x1="588" y1="261" x2="588" y2="437"/>
+    <line class="axis" x1="232" y1="438" x2="632" y2="438"/>
+    <text class="muted small" x="227" y="465">0</text>
+    <text class="muted small" x="309" y="465">1%</text>
+    <text class="muted small" x="398" y="465">2%</text>
+    <text class="muted small" x="487" y="465">3%</text>
+    <text class="muted small" x="576" y="465">4%</text>
+  </g>
+  <text class="ink body" x="84" y="314">+2000</text>
+  <rect x="232" y="287" width="305" height="41" rx="6" fill="#1b658e"/>
+  <text class="ink value" x="550" y="315">3.43%</text>
+  <text class="ink body" x="84" y="402">+2250</text>
+  <rect x="232" y="375" width="200" height="41" rx="6" fill="#148277"/>
+  <text class="ink value" x="445" y="403">2.25%</text>
+  <rect x="84" y="500" width="661" height="56" rx="10" fill="#e8f4f1"/>
+  <text x="103" y="536" fill="#096f66" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700">−1.18 percentage points at +2250</text>
+
+  <rect class="card" x="805" y="160" width="740" height="425" rx="17"/>
+  <rect x="805" y="160" width="740" height="10" rx="5" fill="#b27021"/>
+  <text class="ink h2" x="834" y="207">Mean residual background</text>
+  <text class="muted small" x="834" y="233">Lower means less surrounding scene remains in the output</text>
+  <g>
+    <line class="grid" x1="982" y1="261" x2="982" y2="437"/>
+    <line class="grid" x1="1071" y1="261" x2="1071" y2="437"/>
+    <line class="grid" x1="1160" y1="261" x2="1160" y2="437"/>
+    <line class="grid" x1="1249" y1="261" x2="1249" y2="437"/>
+    <line class="grid" x1="1338" y1="261" x2="1338" y2="437"/>
+    <line class="axis" x1="982" y1="438" x2="1382" y2="438"/>
+    <text class="muted small" x="977" y="465">0</text>
+    <text class="muted small" x="1059" y="465">1%</text>
+    <text class="muted small" x="1148" y="465">2%</text>
+    <text class="muted small" x="1237" y="465">3%</text>
+    <text class="muted small" x="1326" y="465">4%</text>
+  </g>
+  <text class="ink body" x="834" y="314">+2000</text>
+  <rect x="982" y="287" width="226" height="41" rx="6" fill="#1b658e"/>
+  <text class="ink value" x="1221" y="315">2.54%</text>
+  <text class="ink body" x="834" y="402">+2250</text>
+  <rect x="982" y="375" width="315" height="41" rx="6" fill="#b27021"/>
+  <text class="ink value" x="1310" y="403">3.54%</text>
+  <rect x="834" y="500" width="681" height="56" rx="10" fill="#fcf1e3"/>
+  <text x="853" y="536" fill="#92520f" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700">+1.00 percentage point at +2250</text>
+
+  <rect x="55" y="616" width="1490" height="54" rx="10" fill="#e9eef3"/>
+  <text class="muted body" x="78" y="650">Descriptive results from reused synthetic development views. They do not establish independent real-photo accuracy or clinical suitability.</text>
+</svg>

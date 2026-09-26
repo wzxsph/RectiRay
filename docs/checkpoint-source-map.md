@@ -11,10 +11,19 @@ supersedes: null
 
 # 关键权重与训练源码
 
-权重保存在主项目的[私有备份 Pre-release](https://github.com/wzxsph/hip-xray-ai/releases/tag/backup-ptrn-workflows-20260926-v1.0.0)，
-没有进入此代码仓库。该 Release 的 JSON 清单列出 ZIP 和内部文件 SHA-256；
-远端资产大小及摘要已与主项目 `release-catalog.json` 核对。它仅作字节备份，
-不代表模型通过独立实拍验收或可用于应用部署。
+关键权重按研究阶段保存在本仓库的三个私有备份 Pre-release，普通 Git 不包含权重：
+
+| 阶段 | 私有备份 |
+|---|---|
+| 空间头 1250／5000 | [spatial-v2](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-spatial-v2-v1.0.0) |
+| 完整流水线 1250／2000／5000 | [pipeline-v1](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-pipeline-v1-v1.0.0) |
+| 从父 2000 步出发的 +2000／+2250 | [step2000-branch](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-step2000-branch-v1.0.0) |
+
+这些备份只供私有研究字节保全；原始副本也在主项目的
+[私有备份 Pre-release](https://github.com/wzxsph/hip-xray-ai/releases/tag/backup-ptrn-workflows-20260926-v1.0.0)。
+各 Release 的聚合 JSON 列出 ZIP 和内部权重的 SHA-256、训练源码绑定及角色，
+`SHA256SUMS.txt` 校验上传资产。主项目 Release 的资产大小及摘要曾与其
+`release-catalog.json` 核对。备份不表示模型通过独立实拍验收、获准公开分发或可用于应用部署。
 
 | 研究阶段 | Release 内部权重 SHA-256 | 训练源码绑定 | 当前代码关系 |
 |---|---|---|---|
@@ -40,5 +49,6 @@ SHA-256；具体每个文件的 SHA 保存在检查点本身。空间组使用�
 `--allow-parent-source-updates`，工具只允许上表对应的已核实字节偏差，逐权重报告原 SHA 和当前 SHA。
 两套训练输出与取图渲染版本应分别记录，不能把更新后的网页称为当时训练环境逐像素重放。
 
-旧 B1/B1.1 和官方演示初始化亦在同一私有 Release 中，角色与 SHA 见其 JSON 清单。
+旧 B1/B1.1 和官方演示初始化仅在上述主项目的旧私有备份 Release 中，
+不包含在本仓库的三个分阶段 Release；角色与 SHA 见主项目备份的 JSON 清单。
 官方演示权重的再分发依据尚未确认，因此不随未来公开的代码仓库传播。

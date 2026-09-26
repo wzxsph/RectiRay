@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="880" viewBox="0 0 1700 880" role="img" aria-labelledby="title description">
+  <title id="title">PTRN V3 geometry and single-sampling render pipeline</title>
+  <desc id="description">A 224-pixel letterboxed phone photograph enters a DenseNet201 encoder with four feature scales. A 64-channel top-down spatial fusion feeds direct ordered corners and an auxiliary visible-region mask. Pooled encoder features and corner-edge geometry estimate the full-plane aspect ratio. The original photo is sampled once for rectification; the mask is not a second crop and no missing image content is invented.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#526781"/></marker>
+    <linearGradient id="photo" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#526270"/><stop offset="1" stop-color="#142a40"/></linearGradient>
+    <linearGradient id="film" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9d6de"/><stop offset="1" stop-color="#607788"/></linearGradient>
+    <style>
+      .bg{fill:#f7f9fc}.card{fill:#fff;stroke:#c4d0dc;stroke-width:2}.sub{fill:#f0f5fa;stroke:#d4dee8;stroke-width:1.5}
+      .ink{fill:#17324d;font-family:Arial,Helvetica,sans-serif}.muted{fill:#53677d;font-family:Arial,Helvetica,sans-serif}
+      .h1{font-size:32px;font-weight:700}.h2{font-size:20px;font-weight:700}.body{font-size:17px}.small{font-size:14px}
+      .blue{fill:#1b658e}.teal{fill:#096f66}.amber{fill:#9c5e11}.line{fill:none;stroke:#526781;stroke-width:3;marker-end:url(#arrow)}
+      .thin{fill:none;stroke:#8799aa;stroke-width:2}.pill{fill:#e4f1f7}
+    </style>
+  </defs>
+  <rect class="bg" width="1700" height="880"/>
+  <text class="ink h1" x="60" y="60">PTRN V3 · geometry-first radiograph recovery</text>
+  <text class="muted body" x="60" y="94">Research architecture · one prediction on the 224 × 224 view, one resampling of the original photograph</text>
+  <line x1="60" y1="118" x2="1640" y2="118" stroke="#c8d4df" stroke-width="2"/>
+
+  <rect class="card" x="60" y="160" width="225" height="425" rx="16"/>
+  <text class="ink h2" x="82" y="198">Phone photograph</text>
+  <text class="muted small" x="82" y="223">Original resolution retained</text>
+  <rect x="91" y="253" width="163" height="244" rx="8" fill="url(#photo)"/>
+  <path d="M108 310 L224 282 L239 444 L118 462 Z" fill="url(#film)" stroke="#eaf3f7" stroke-width="3"/>
+  <path d="M127 345 Q172 310 211 347 M130 373 Q178 342 217 383 M137 408 Q180 381 220 419" fill="none" stroke="#dfe9ee" stroke-width="7" opacity=".38"/>
+  <circle cx="108" cy="310" r="5" fill="#eaf3f7"/><circle cx="224" cy="282" r="5" fill="#eaf3f7"/><circle cx="239" cy="444" r="5" fill="#eaf3f7"/><circle cx="118" cy="462" r="5" fill="#eaf3f7"/>
+  <text class="muted small" x="82" y="536">Pixels + capture border</text>
+  <text class="muted small" x="82" y="557">stay available for rendering</text>
+
+  <path class="line" d="M285 371 H327"/>
+  <rect class="card" x="330" y="160" width="205" height="425" rx="16"/>
+  <text class="ink h2" x="352" y="198">Input view</text>
+  <text class="muted small" x="352" y="223">Isotropic letterbox</text>
+  <rect x="362" y="267" width="140" height="140" rx="6" fill="#13293c"/>
+  <path d="M379 286 L486 278 L490 392 L382 396 Z" fill="url(#film)" stroke="#e3eff4" stroke-width="2"/>
+  <path d="M393 326 Q428 307 472 332 M396 355 Q438 340 474 365" fill="none" stroke="#dfe9ee" stroke-width="6" opacity=".35"/>
+  <text class="ink h2" x="365" y="451">224 × 224 RGB</text>
+  <text class="muted small" x="352" y="491">ImageNet normalization</text>
+  <text class="muted small" x="352" y="514">Inverse transform saved</text>
+
+  <path class="line" d="M535 371 H572"/>
+  <rect class="card" x="575" y="160" width="360" height="425" rx="16"/>
+  <text class="ink h2" x="598" y="198">DenseNet201 encoder</text>
+  <text class="muted small" x="598" y="223">Frozen encoder and BatchNorm in head stage</text>
+  <rect class="sub" x="600" y="248" width="310" height="59" rx="9"/>
+  <rect x="615" y="261" width="31" height="31" fill="#d6e8f1" stroke="#1b658e" stroke-width="2"/>
+  <path d="M625 261 V292 M635 261 V292 M615 271 H646 M615 281 H646" stroke="#78a9c5" stroke-width="1"/>
+  <text class="ink body" x="660" y="273">conv2</text><text class="muted small" x="660" y="293">56 × 56 feature map</text>
+  <rect class="sub" x="600" y="321" width="310" height="59" rx="9"/>
+  <rect x="615" y="334" width="31" height="31" fill="#c4e5e3" stroke="#096f66" stroke-width="2"/>
+  <path d="M630 334 V365 M615 349 H646" stroke="#74bdb4" stroke-width="1"/>
+  <text class="ink body" x="660" y="346">conv3</text><text class="muted small" x="660" y="366">28 × 28 feature map</text>
+  <rect class="sub" x="600" y="394" width="310" height="59" rx="9"/>
+  <rect x="615" y="407" width="31" height="31" fill="#d9d7ef" stroke="#62629f" stroke-width="2"/>
+  <text class="ink body" x="660" y="419">conv4</text><text class="muted small" x="660" y="439">14 × 14 feature map</text>
+  <rect class="sub" x="600" y="467" width="310" height="59" rx="9"/>
+  <rect x="615" y="480" width="31" height="31" fill="#f5e3c7" stroke="#9c5e11" stroke-width="2"/>
+  <text class="ink body" x="660" y="492">conv5</text><text class="muted small" x="660" y="512">7 × 7 feature map</text>
+  <text class="muted small" x="598" y="554">Four scales; pooled conv5 feeds ratio residual</text>
+
+  <path class="line" d="M935 371 H972"/>
+  <rect class="card" x="975" y="160" width="286" height="425" rx="16"/>
+  <text class="ink h2" x="999" y="198">Spatial fusion</text>
+  <text class="muted small" x="999" y="223">Top-down, shared by corners and mask</text>
+  <rect class="sub" x="1000" y="263" width="236" height="73" rx="9"/>
+  <text class="ink body" x="1017" y="292">1 × 1 lateral maps</text>
+  <text class="blue small" x="1017" y="316">64 channels at each scale</text>
+  <path class="line" d="M1118 337 V370"/>
+  <rect class="sub" x="1000" y="373" width="236" height="73" rx="9"/>
+  <text class="ink body" x="1017" y="402">Upsample + sum</text>
+  <text class="muted small" x="1017" y="426">3 × 3 smoothing</text>
+  <path class="line" d="M1118 447 V480"/>
+  <rect class="pill" x="1000" y="483" width="236" height="65" rx="9"/>
+  <text class="ink body" x="1017" y="509">4 spatial logit maps</text>
+  <text class="blue small" x="1017" y="532">readout grid 56 × 56</text>
+
+  <path class="line" d="M1261 371 H1298"/>
+  <rect class="card" x="1300" y="160" width="340" height="425" rx="16"/>
+  <text class="ink h2" x="1323" y="198">Three model outputs</text>
+  <rect class="sub" x="1324" y="224" width="292" height="99" rx="9"/>
+  <rect x="1338" y="238" width="7" height="70" rx="3" fill="#1b658e"/>
+  <text class="ink body" x="1357" y="252">Ordered quad</text>
+  <text class="muted small" x="1357" y="274">Direct linear readout: TL, TR, BR, BL</text>
+  <text class="blue small" x="1357" y="296">Unbounded coordinates; no clipping</text>
+  <rect class="sub" x="1324" y="337" width="292" height="99" rx="9"/>
+  <rect x="1338" y="351" width="7" height="70" rx="3" fill="#096f66"/>
+  <text class="ink body" x="1357" y="365">Full-plane aspect ratio</text>
+  <text class="muted small" x="1357" y="387">Quad-edge log baseline + residual</text>
+  <text class="teal small" x="1357" y="409">Residual uses pooled conv5 features</text>
+  <rect class="sub" x="1324" y="450" width="292" height="99" rx="9"/>
+  <rect x="1338" y="464" width="7" height="70" rx="3" fill="#9c5e11"/>
+  <text class="ink body" x="1357" y="478">Visible-region mask</text>
+  <text class="muted small" x="1357" y="500">Auxiliary supervision, 1 × 1 head</text>
+  <text class="amber small" x="1357" y="522">Not a second hard crop</text>
+
+  <text class="ink h2" x="60" y="638">Rendering contract</text>
+  <path class="thin" d="M60 654 H1640"/>
+  <rect class="card" x="60" y="680" width="477" height="150" rx="14"/>
+  <circle cx="90" cy="714" r="17" fill="#1b658e"/><text x="85" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">1</text>
+  <text class="ink h2" x="118" y="721">Map back to photograph</text>
+  <text class="muted body" x="82" y="756">Invert the saved letterbox transform;</text>
+  <text class="muted body" x="82" y="781">keep predicted corners in photo coordinates.</text>
+  <path class="line" d="M537 755 H585"/>
+  <rect class="card" x="590" y="680" width="477" height="150" rx="14"/>
+  <circle cx="620" cy="714" r="17" fill="#096f66"/><text x="615" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">2</text>
+  <text class="ink h2" x="648" y="721">Solve visible rectification</text>
+  <text class="muted body" x="612" y="756">Use the quad and full-plane W/H;</text>
+  <text class="muted body" x="612" y="781">preserve only observed photo support.</text>
+  <path class="line" d="M1067 755 H1115"/>
+  <rect class="card" x="1120" y="680" width="520" height="150" rx="14"/>
+  <circle cx="1150" cy="714" r="17" fill="#9c5e11"/><text x="1145" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">3</text>
+  <text class="ink h2" x="1178" y="721">Sample original pixels once</text>
+  <text class="muted body" x="1142" y="756">One projective resample at output resolution.</text>
+  <text class="amber body" x="1142" y="781">Missing content is never hallucinated.</text>
+</svg>
