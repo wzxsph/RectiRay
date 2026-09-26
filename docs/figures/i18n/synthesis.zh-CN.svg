@@ -1,99 +1,116 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title description" xml:lang="zh-CN">
-  <title id="title">可复现的合成拍摄图生成流程</title>
-  <desc id="description">用单应变换放置原始 X 光片。固定种子或分层控制在生成照片前确定底片占幅、缺损、背景、拍摄介质和外观；几何模式可随占幅而变化。几何过程同时生成完整片幅有序四角、可见片区掩码和宽高比标签。约 20% 的配方直接保留原图。本示意图不含患者影像。</desc>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10Z" fill="#5b6e80" />
-    </marker>
-    <linearGradient id="source" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#dce5eb" />
-      <stop offset="1" stop-color="#667988" />
-    </linearGradient>
-    <style>
-      .bg{fill:#f7f9fc}.card{fill:#fff;stroke:#c4d0dc;stroke-width:2}.sub{fill:#eff5f9;stroke:#d6e0e9;stroke-width:1.5}
-      .ink{fill:#18324c;font-family:'Noto Sans CJK SC','Noto Sans CJK',sans-serif}.muted{fill:#52677b;font-family:'Noto Sans CJK SC','Noto Sans CJK',sans-serif}
-      .h1{font-size:31px;font-weight:700}.h2{font-size:20px;font-weight:700}.body{font-size:17px}.small{font-size:14px}
-      .blue{fill:#1c658e}.teal{fill:#096f66}.amber{fill:#985d13}
-      .line{fill:none;stroke:#5b6e80;stroke-width:3;marker-end:url(#arrow)}
-    </style>
-  </defs>
-  <rect class="bg" width="1600" height="820" />
-  <text class="ink h1" x="55" y="60">可复现的合成拍摄图</text>
-  <text class="muted body" x="55" y="94">场景与真值同步生成；配方概率是设计目标，不等于实际频率</text>
-  <line x1="55" y1="116" x2="1545" y2="116" stroke="#c8d4df" stroke-width="2" />
-  <rect class="card" x="55" y="150" width="290" height="228" rx="15" />
-  <text class="ink h2" x="78" y="185">参考底片</text>
-  <text class="muted small" x="78" y="208">完整原片画布及尺寸</text>
-  <rect x="129" y="224" width="142" height="122" rx="5" fill="url(#source)" stroke="#50687a" stroke-width="2" />
-  <path d="M150 249 Q198 229 247 250 M154 274 Q195 260 249 278 M159 306 Q198 288 245 312" fill="none" stroke="#eaf1f5" stroke-width="8" opacity=".35" />
-  <path class="line" d="M345 265 H405" />
-  <rect class="card" x="410" y="150" width="290" height="228" rx="15" />
-  <text class="ink h2" x="433" y="185">透视放置</text>
-  <text class="muted small" x="433" y="208">已知原片→照片单应变换</text>
-  <rect x="466" y="226" width="178" height="121" rx="4" fill="#d9e7ed" stroke="#b2c5d1" stroke-width="2" />
-  <path d="M489 255 L607 235 L625 327 L506 335 Z" fill="url(#source)" stroke="#1c658e" stroke-width="3" />
-  <circle cx="489" cy="255" r="5" fill="#1c658e" />
-  <circle cx="607" cy="235" r="5" fill="#1c658e" />
-  <circle cx="625" cy="327" r="5" fill="#1c658e" />
-  <circle cx="506" cy="335" r="5" fill="#1c658e" />
-  <path class="line" d="M700 265 H760" />
-  <rect class="card" x="765" y="150" width="290" height="228" rx="15" />
-  <text class="ink h2" x="788" y="185">合成拍摄画面</text>
-  <text class="muted small" x="788" y="208">应用五类场景控制</text>
-  <rect class="sub" x="790" y="226" width="240" height="121" rx="8" />
-  <path d="M809 305 L930 243 L1007 295 L887 338 Z" fill="#d8e8ec" stroke="#7796a5" stroke-width="2" />
-  <path d="M811 297 L927 238 L1003 290" fill="none" stroke="#1c658e" stroke-width="5" />
-  <path d="M841 324 L876 310 M961 274 L989 291" fill="none" stroke="#ab7130" stroke-width="4" />
-  <text class="muted small" x="796" y="366">几何、介质与拍摄外观</text>
-  <path class="line" d="M1055 265 H1115" />
-  <rect class="card" x="1120" y="150" width="425" height="228" rx="15" />
-  <text class="ink h2" x="1143" y="185">合成手机照片</text>
-  <text class="muted small" x="1143" y="208">固定场景种子生成的一张图</text>
-  <rect x="1168" y="224" width="148" height="125" rx="5" fill="#344e5e" />
-  <path d="M1190 260 L1277 239 L1298 315 L1204 327 Z" fill="url(#source)" stroke="#d9e8ee" stroke-width="2" />
-  <path d="M1190 260 L1277 239 L1298 315 L1204 327 Z" fill="none" stroke="#e4f1f5" stroke-width="1" />
-  <path d="M1182 245 H1302 M1182 334 H1302" stroke="#7294a5" stroke-width="2" opacity=".7" />
-  <text class="muted small" x="1341" y="259">可见原片</text>
-  <text class="muted small" x="1341" y="282">＋周围背景</text>
-  <text class="muted small" x="1341" y="305">＋拍摄干扰</text>
-  <text class="ink h2" x="55" y="426">场景控制与分层</text>
-  <text class="muted small" x="339" y="425">渲染前固定种子或分层；几何模式可随占幅变化</text>
-  <rect class="card" x="55" y="447" width="278" height="184" rx="13" />
-  <rect x="55" y="447" width="278" height="10" rx="5" fill="#1c658e" />
-  <text class="ink h2" x="75" y="489">底片占幅</text>
-  <text class="muted small" x="75" y="518">底片占照片面积</text>
-  <text class="blue body" x="75" y="550">90–98 · 75–90 · 50–75%</text>
-  <text class="blue body" x="75" y="578">30–50 · 10–30%</text>
-  <text class="muted small" x="75" y="607">目标：20 / 30 / 35 / 10 / 5%</text>
-  <rect class="card" x="352" y="447" width="278" height="184" rx="13" />
-  <rect x="352" y="447" width="278" height="10" rx="5" fill="#096f66" />
-  <text class="ink h2" x="372" y="489">缺损</text>
-  <text class="muted small" x="372" y="518">完整片幅中的缺失</text>
-  <text class="teal body" x="372" y="550">完整 · 轻度</text>
-  <text class="teal body" x="372" y="578">中度 · 较重</text>
-  <text class="muted small" x="372" y="607">目标：80 / 12 / 6 / 2%</text>
-  <rect class="card" x="649" y="447" width="278" height="184" rx="13" />
-  <rect x="649" y="447" width="278" height="10" rx="5" fill="#6c619c" />
-  <text class="ink h2" x="669" y="489">背景</text>
-  <text class="muted small" x="669" y="518">周围场景</text>
-  <text class="body" x="669" y="550" fill="#584d8b" font-family="Noto Sans CJK SC, Noto Sans CJK, sans-serif">观片界面 · COCO</text>
-  <text class="body" x="669" y="578" fill="#584d8b" font-family="Noto Sans CJK SC, Noto Sans CJK, sans-serif">近色 · 混色</text>
-  <text class="muted small" x="669" y="607">目标：40 / 25 / 25 / 10%</text>
-  <rect class="card" x="946" y="447" width="278" height="184" rx="13" />
-  <rect x="946" y="447" width="278" height="10" rx="5" fill="#985d13" />
-  <text class="ink h2" x="966" y="489">介质</text>
-  <text class="muted small" x="966" y="518">拍摄表面</text>
-  <text class="amber body" x="966" y="550">屏幕或实体胶片</text>
-  <text class="muted small" x="966" y="607">独立种子选择介质</text>
-  <rect class="card" x="1243" y="447" width="302" height="184" rx="13" />
-  <rect x="1243" y="447" width="302" height="10" rx="5" fill="#617587" />
-  <text class="ink h2" x="1263" y="489">拍摄外观</text>
-  <text class="muted small" x="1263" y="518">拍摄退化</text>
-  <text class="body" x="1263" y="550" fill="#415d73" font-family="Noto Sans CJK SC, Noto Sans CJK, sans-serif">清晰 · 轻度</text>
-  <text class="body" x="1263" y="578" fill="#415d73" font-family="Noto Sans CJK SC, Noto Sans CJK, sans-serif">中度 · 较强</text>
-  <text class="muted small" x="1263" y="607">外观另设独立种子</text>
-  <rect x="55" y="670" width="1490" height="107" rx="14" fill="#e9f2f5" stroke="#bdd0d9" stroke-width="2" />
-  <text class="ink h2" x="80" y="706">照片与真值同步生成</text>
-  <text class="muted body" x="80" y="737">全片有序四角（左上／右上／右下／左下） · 可见片区掩码 · 全片宽高比 · 原片到照片的映射</text>
-  <text class="muted small" x="80" y="762">约 20% 的配方直接保留原图。公开效果示例仅采用经许可核实的 CC BY 4.0 来源。</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760" role="img" aria-labelledby="title desc">
+<title id="title">一张拍摄照片，不只是一个透视四边形</title><desc id="desc">Schematic of separate source reference, projective geometry, background context, and capture appearance. Drawings are not training examples. Labels keep geometry separate from appearance.</desc>
+<defs><style>text{font-family:"Noto Sans CJK SC","DejaVu Sans",sans-serif;fill:#172b35}.small{fill:#657781}</style>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#faf9f6"/><path d="M-3 3L3-3M0 12L12 0M9 15L15 9" stroke="#d56a46" stroke-width="1.3"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#657781"/></marker></defs>
+<rect width="1500" height="760" fill="#faf9f6"/>
+<text x="48" y="48" font-size="18" font-weight="700" text-anchor="start" style="fill:#087e8b">03 / 数据合成</text>
+<text x="48" y="98" font-size="36" font-weight="700" text-anchor="start" style="fill:#172b35">一张拍摄照片，不只是一个透视四边形</text>
+<text x="48" y="136" font-size="22" font-weight="400" text-anchor="start" style="fill:#657781">参考平面、相机几何、周围背景与拍摄外观，分别设置。</text>
+<line x1="48" y1="162" x2="1452" y2="162" stroke="#dbe1df" stroke-width="2"/>
+<text x="56" y="213" font-size="22" font-weight="700" text-anchor="start" style="fill:#087e8b">01</text>
+<text x="102" y="213" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">定义参考</text>
+<line x1="364" y1="365" x2="394" y2="365" stroke="#657781" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="420" y="213" font-size="22" font-weight="700" text-anchor="start" style="fill:#087e8b">02</text>
+<text x="466" y="213" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">投影与裁损</text>
+<line x1="728" y1="365" x2="758" y2="365" stroke="#657781" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="784" y="213" font-size="22" font-weight="700" text-anchor="start" style="fill:#087e8b">03</text>
+<text x="830" y="213" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">合成背景</text>
+<line x1="1092" y1="365" x2="1122" y2="365" stroke="#657781" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="1148" y="213" font-size="22" font-weight="700" text-anchor="start" style="fill:#087e8b">04</text>
+<text x="1194" y="213" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">拍摄外观</text>
+<polygon points="85,262 290,262 290,450 85,450" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="85.0" y1="288.85714285714283" x2="290.0" y2="288.85714285714283" stroke="#087e8b" stroke-width="1"/>
+<line x1="114.28571428571428" y1="262.0" x2="114.28571428571428" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="85.0" y1="315.7142857142857" x2="290.0" y2="315.7142857142857" stroke="#087e8b" stroke-width="1"/>
+<line x1="143.57142857142856" y1="262.0" x2="143.57142857142856" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="85.0" y1="342.57142857142856" x2="290.0" y2="342.57142857142856" stroke="#087e8b" stroke-width="1"/>
+<line x1="172.85714285714283" y1="262.0" x2="172.85714285714283" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="85.0" y1="369.42857142857144" x2="290.0" y2="369.42857142857144" stroke="#087e8b" stroke-width="1"/>
+<line x1="202.14285714285714" y1="262.0" x2="202.14285714285714" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="85.0" y1="396.2857142857143" x2="290.0" y2="396.2857142857143" stroke="#087e8b" stroke-width="1"/>
+<line x1="231.42857142857144" y1="262.0" x2="231.42857142857144" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<line x1="85.0" y1="423.1428571428571" x2="290.0" y2="423.1428571428571" stroke="#087e8b" stroke-width="1"/>
+<line x1="260.71428571428567" y1="262.0" x2="260.71428571428567" y2="450.0" stroke="#087e8b" stroke-width="1"/>
+<rect x="110" y="282" width="160" height="150" fill="none" stroke="#d56a46" stroke-width="2"/>
+<text x="56" y="500" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">公开来源的 X 光片</text>
+<text x="56" y="532" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">母片预裁剪 → 新参考平面</text>
+<polygon points="457,258 704,310 653,459 435,410" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="453.5187835133412" y1="282.05204118055195" x2="695.9126457134425" y2="333.6277605626875" stroke="#087e8b" stroke-width="1"/>
+<line x1="491.6204752150758" y1="265.28852109791075" x2="465.6224865477202" y2="416.8830359671481" stroke="#087e8b" stroke-width="1"/>
+<line x1="450.1602939148593" y1="305.2561511336998" x2="688.1165645653382" y2="356.40454666205136" stroke="#087e8b" stroke-width="1"/>
+<line x1="526.4592019989069" y1="272.6229898945067" x2="496.4160079519099" y2="423.8045155488238" stroke="#087e8b" stroke-width="1"/>
+<line x1="446.9181536960537" y1="327.65639264544757" x2="680.5962992250514" y2="378.37551795034005" stroke="#087e8b" stroke-width="1"/>
+<line x1="561.5182507029015" y1="280.00384225324245" x2="527.3820011391683" y2="430.76476172394155" stroke="#087e8b" stroke-width="1"/>
+<line x1="443.786419701404" y1="349.2938275175729" x2="673.3374670738245" y2="399.58269423529686" stroke="#087e8b" stroke-width="1"/>
+<line x1="596.7997179475515" y1="287.4315195679055" x2="558.5219191774953" y2="437.7641010995288" stroke="#087e8b" stroke-width="1"/>
+<line x1="440.759546769347" y1="370.2067677754203" x2="666.3266683978187" y2="420.06522370049026" stroke="#087e8b" stroke-width="1"/>
+<line x1="632.305727040393" y1="294.90646885060903" x2="589.83723150358" y2="444.80286396181384" stroke="#087e8b" stroke-width="1"/>
+<line x1="437.832354965386" y1="390.43100205733293" x2="659.5514038341681" y2="439.8596240923324" stroke="#087e8b" stroke-width="1"/>
+<line x1="668.0384284019729" y1="302.42914282146796" x2="621.3294241539419" y2="451.8813843281796" stroke="#087e8b" stroke-width="1"/>
+<rect x="434" y="290" width="270" height="180" fill="none" stroke="#172b35" stroke-width="2"/>
+<line x1="434" y1="290" x2="704" y2="290" stroke="#d56a46" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="420" y="500" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">旋转＋透视</text>
+<text x="420" y="532" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">拍摄后裁剪 → 区域未入镜</text>
+<rect x="784" y="290" width="270" height="180" fill="#d5d4c9" stroke="#657781" stroke-width="1"/>
+<rect x="784" y="290" width="270" height="18" fill="#172b35" stroke="#172b35" stroke-width="1"/>
+<defs><clipPath id="composed"><rect x="784" y="290" width="270" height="180"/></clipPath></defs>
+<g clip-path="url(#composed)">
+<polygon points="807,258 1054,310 1003,459 785,410" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="803.5187835133412" y1="282.05204118055195" x2="1045.9126457134425" y2="333.6277605626875" stroke="#087e8b" stroke-width="1"/>
+<line x1="841.6204752150759" y1="265.28852109791075" x2="815.6224865477202" y2="416.8830359671481" stroke="#087e8b" stroke-width="1"/>
+<line x1="800.1602939148594" y1="305.2561511336998" x2="1038.1165645653382" y2="356.40454666205136" stroke="#087e8b" stroke-width="1"/>
+<line x1="876.4592019989069" y1="272.6229898945067" x2="846.4160079519099" y2="423.8045155488238" stroke="#087e8b" stroke-width="1"/>
+<line x1="796.9181536960538" y1="327.65639264544757" x2="1030.5962992250516" y2="378.37551795034005" stroke="#087e8b" stroke-width="1"/>
+<line x1="911.5182507029016" y1="280.00384225324245" x2="877.3820011391683" y2="430.76476172394155" stroke="#087e8b" stroke-width="1"/>
+<line x1="793.786419701404" y1="349.2938275175729" x2="1023.3374670738244" y2="399.58269423529686" stroke="#087e8b" stroke-width="1"/>
+<line x1="946.7997179475515" y1="287.4315195679055" x2="908.5219191774953" y2="437.7641010995288" stroke="#087e8b" stroke-width="1"/>
+<line x1="790.7595467693469" y1="370.2067677754203" x2="1016.3266683978187" y2="420.06522370049026" stroke="#087e8b" stroke-width="1"/>
+<line x1="982.3057270403931" y1="294.90646885060903" x2="939.83723150358" y2="444.80286396181384" stroke="#087e8b" stroke-width="1"/>
+<line x1="787.832354965386" y1="390.43100205733293" x2="1009.5514038341681" y2="439.8596240923324" stroke="#087e8b" stroke-width="1"/>
+<line x1="1018.0384284019729" y1="302.42914282146796" x2="971.3294241539419" y2="451.8813843281796" stroke="#087e8b" stroke-width="1"/>
+</g>
+<text x="784" y="500" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">查看器／COCO 场景</text>
+<text x="784" y="532" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">近色／混色背景</text>
+<rect x="1148" y="290" width="270" height="180" fill="#d5d4c9" stroke="#657781" stroke-width="1"/>
+<rect x="1148" y="290" width="270" height="18" fill="#172b35" stroke="#172b35" stroke-width="1"/>
+<defs><clipPath id="captured"><rect x="1148" y="290" width="270" height="180"/></clipPath></defs>
+<g clip-path="url(#captured)">
+<polygon points="1171,258 1418,310 1367,459 1149,410" fill="#e2eeeb" stroke="#087e8b" stroke-width="3" stroke-dasharray=""/>
+<line x1="1167.5187835133413" y1="282.05204118055195" x2="1409.9126457134425" y2="333.6277605626875" stroke="#087e8b" stroke-width="1"/>
+<line x1="1205.6204752150759" y1="265.28852109791075" x2="1179.62248654772" y2="416.8830359671481" stroke="#087e8b" stroke-width="1"/>
+<line x1="1164.1602939148593" y1="305.2561511336998" x2="1402.1165645653384" y2="356.40454666205136" stroke="#087e8b" stroke-width="1"/>
+<line x1="1240.4592019989068" y1="272.6229898945067" x2="1210.41600795191" y2="423.8045155488238" stroke="#087e8b" stroke-width="1"/>
+<line x1="1160.9181536960539" y1="327.65639264544757" x2="1394.5962992250513" y2="378.37551795034005" stroke="#087e8b" stroke-width="1"/>
+<line x1="1275.5182507029015" y1="280.00384225324245" x2="1241.3820011391683" y2="430.76476172394155" stroke="#087e8b" stroke-width="1"/>
+<line x1="1157.7864197014042" y1="349.2938275175729" x2="1387.3374670738244" y2="399.58269423529686" stroke="#087e8b" stroke-width="1"/>
+<line x1="1310.7997179475515" y1="287.4315195679055" x2="1272.5219191774952" y2="437.7641010995288" stroke="#087e8b" stroke-width="1"/>
+<line x1="1154.759546769347" y1="370.2067677754203" x2="1380.3266683978186" y2="420.06522370049026" stroke="#087e8b" stroke-width="1"/>
+<line x1="1346.305727040393" y1="294.90646885060903" x2="1303.8372315035801" y2="444.80286396181384" stroke="#087e8b" stroke-width="1"/>
+<line x1="1151.8323549653858" y1="390.43100205733293" x2="1373.551403834168" y2="439.8596240923324" stroke="#087e8b" stroke-width="1"/>
+<line x1="1382.0384284019729" y1="302.42914282146796" x2="1335.329424153942" y2="451.8813843281796" stroke="#087e8b" stroke-width="1"/>
+<line x1="1150" y1="293" x2="1416" y2="296" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="306" x2="1416" y2="309" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="319" x2="1416" y2="322" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="332" x2="1416" y2="335" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="345" x2="1416" y2="348" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="358" x2="1416" y2="361" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="371" x2="1416" y2="374" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="384" x2="1416" y2="387" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="397" x2="1416" y2="400" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="410" x2="1416" y2="413" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="423" x2="1416" y2="426" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="436" x2="1416" y2="439" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="449" x2="1416" y2="452" stroke="#657781" stroke-width="0.7"/>
+<line x1="1150" y1="462" x2="1416" y2="465" stroke="#657781" stroke-width="0.7"/>
+<ellipse cx="1340" cy="321" rx="60" ry="12" transform="rotate(-30 1340 321)" fill="#fff" opacity=".65"/>
+</g>
+<text x="1148" y="500" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">屏幕或实体胶片</text>
+<text x="1148" y="532" font-size="21" font-weight="400" text-anchor="start" style="fill:#657781">反光／模糊／拍摄干扰</text>
+<line x1="48" y1="565" x2="1452" y2="565" stroke="#dbe1df" stroke-width="2"/>
+<text x="56" y="614" font-size="26" font-weight="700" text-anchor="start" style="fill:#172b35">几何标签随场景变换</text>
+<text x="56" y="655" font-size="22" font-weight="400" text-anchor="start" style="fill:#087e8b">有序四角 · 完整平面比例 · 可见区域</text>
+<text x="790" y="614" font-size="26" font-weight="700" text-anchor="start" style="fill:#172b35">外观干扰不改写几何真值</text>
+<text x="790" y="655" font-size="22" font-weight="400" text-anchor="start" style="fill:#657781">反光遮住的区域，不冒充照片缺失区域。</text>
+<text x="56" y="714" font-size="20" font-weight="400" text-anchor="start" style="fill:#657781">此图为合成过程示意，不是实际生成的 X 光片。固定开发场景仍沿用早期配方。</text>
 </svg>

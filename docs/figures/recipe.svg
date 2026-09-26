@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="780" viewBox="0 0 1500 780" role="img" aria-labelledby="title desc">
+<title id="title">Mostly large, complete films. Some difficult edges.</title><desc id="desc">Targets only: 20% trusted-original slots; photo occupancy bins 20/30/35/10/5%; missing-area bins 80/12/6/2%; backgrounds 40/25/25/10%. Realized sampling can differ.</desc>
+<defs><style>text{font-family:"DejaVu Sans","Noto Sans CJK SC",sans-serif;fill:#172b35}.small{fill:#657781}</style>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#faf9f6"/><path d="M-3 3L3-3M0 12L12 0M9 15L15 9" stroke="#d56a46" stroke-width="1.3"/></pattern>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#657781"/></marker></defs>
+<rect width="1500" height="780" fill="#faf9f6"/>
+<text x="48" y="48" font-size="18" font-weight="700" text-anchor="start" style="fill:#087e8b">04 / TRAINING RECIPE</text>
+<text x="48" y="98" font-size="36" font-weight="700" text-anchor="start" style="fill:#172b35">Mostly large, complete films. Some difficult edges.</text>
+<text x="48" y="136" font-size="22" font-weight="400" text-anchor="start" style="fill:#657781">Targets for the new branch; realized scene frequencies require an audit.</text>
+<line x1="48" y1="162" x2="1452" y2="162" stroke="#dbe1df" stroke-width="2"/>
+<text x="50" y="219" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">Film occupancy within photograph</text>
+<rect x="54" y="247" width="139" height="93" fill="#ecebe5" stroke="#dbe1df" stroke-width="1"/>
+<rect x="55.7597793035777" y="248.1774062966383" width="135.4804413928446" height="90.64518740672337" fill="#e2eeeb" stroke="#087e8b" stroke-width="1"/>
+<text x="123" y="371" font-size="21" font-weight="400" text-anchor="middle" style="fill:#172b35">90–98%</text>
+<text x="123" y="409" font-size="27" font-weight="700" text-anchor="middle" style="fill:#087e8b">20%</text>
+<rect x="235" y="247" width="139" height="93" fill="#ecebe5" stroke="#dbe1df" stroke-width="1"/>
+<rect x="241.3734901170673" y="251.26427756034" width="126.2530197658654" height="84.47144487932002" fill="#e2eeeb" stroke="#087e8b" stroke-width="1"/>
+<text x="304" y="371" font-size="21" font-weight="400" text-anchor="middle" style="fill:#172b35">75–90%</text>
+<text x="304" y="409" font-size="27" font-weight="700" text-anchor="middle" style="fill:#087e8b">30%</text>
+<rect x="416" y="247" width="139" height="93" fill="#ecebe5" stroke="#dbe1df" stroke-width="1"/>
+<rect x="430.5554256545744" y="256.7385222005426" width="109.88914869085119" height="73.52295559891482" fill="#e2eeeb" stroke="#087e8b" stroke-width="1"/>
+<text x="485" y="371" font-size="21" font-weight="400" text-anchor="middle" style="fill:#172b35">50–75%</text>
+<text x="485" y="409" font-size="27" font-weight="700" text-anchor="middle" style="fill:#087e8b">35%</text>
+<rect x="597" y="247" width="139" height="93" fill="#ecebe5" stroke="#dbe1df" stroke-width="1"/>
+<rect x="622.5443405236596" y="264.09081776043405" width="87.91131895268094" height="58.81836447913186" fill="#e2eeeb" stroke="#087e8b" stroke-width="1"/>
+<text x="666" y="371" font-size="21" font-weight="400" text-anchor="middle" style="fill:#172b35">30–50%</text>
+<text x="666" y="409" font-size="27" font-weight="700" text-anchor="middle" style="fill:#087e8b">10%</text>
+<rect x="778" y="247" width="139" height="93" fill="#ecebe5" stroke="#dbe1df" stroke-width="1"/>
+<rect x="816.418655112753" y="272.70456780925196" width="62.162689774494154" height="41.59086438149609" fill="#e2eeeb" stroke="#087e8b" stroke-width="1"/>
+<text x="847" y="371" font-size="21" font-weight="400" text-anchor="middle" style="fill:#172b35">10–30%</text>
+<text x="847" y="409" font-size="27" font-weight="700" text-anchor="middle" style="fill:#087e8b">5%</text>
+<text x="1040" y="234" font-size="58" font-weight="700" text-anchor="start" style="fill:#087e8b">20%</text>
+<text x="1040" y="273" font-size="22" font-weight="400" text-anchor="start" style="fill:#172b35">original keep slots</text>
+<text x="1040" y="330" font-size="58" font-weight="700" text-anchor="start" style="fill:#172b35">80%</text>
+<text x="1040" y="369" font-size="22" font-weight="400" text-anchor="start" style="fill:#172b35">photographed slots</text>
+<line x1="48" y1="445" x2="1452" y2="445" stroke="#dbe1df" stroke-width="2"/>
+<text x="54" y="496" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">Missing full-plane area</text>
+<rect x="54" y="523" width="516.8" height="25" fill="#087e8b" stroke="#087e8b" stroke-width="0"/>
+<rect x="570.8" y="523" width="77.52" height="25" fill="#60a5a9" stroke="#60a5a9" stroke-width="0"/>
+<rect x="648.3199999999999" y="523" width="38.76" height="25" fill="#a9c7c2" stroke="#a9c7c2" stroke-width="0"/>
+<rect x="687.0799999999999" y="523" width="12.92" height="25" fill="#d56a46" stroke="#d56a46" stroke-width="0"/>
+<circle cx="60" cy="584" r="6" fill="#087e8b"/>
+<text x="77" y="591" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">None  ·  80%</text>
+<circle cx="390" cy="584" r="6" fill="#60a5a9"/>
+<text x="407" y="591" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">1–3%  ·  12%</text>
+<circle cx="60" cy="624" r="6" fill="#a9c7c2"/>
+<text x="77" y="631" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">&gt;3–8%  ·  6%</text>
+<circle cx="390" cy="624" r="6" fill="#d56a46"/>
+<text x="407" y="631" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">&gt;8–15%  ·  2%</text>
+<text x="799" y="496" font-size="25" font-weight="700" text-anchor="start" style="fill:#172b35">Background family</text>
+<rect x="799" y="523" width="258.4" height="25" fill="#087e8b" stroke="#087e8b" stroke-width="0"/>
+<rect x="1057.4" y="523" width="161.5" height="25" fill="#60a5a9" stroke="#60a5a9" stroke-width="0"/>
+<rect x="1218.9" y="523" width="161.5" height="25" fill="#a9c7c2" stroke="#a9c7c2" stroke-width="0"/>
+<rect x="1380.4" y="523" width="64.6" height="25" fill="#d56a46" stroke="#d56a46" stroke-width="0"/>
+<circle cx="805" cy="584" r="6" fill="#087e8b"/>
+<text x="822" y="591" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">Viewer  ·  40%</text>
+<circle cx="1135" cy="584" r="6" fill="#60a5a9"/>
+<text x="1152" y="591" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">COCO  ·  25%</text>
+<circle cx="805" cy="624" r="6" fill="#a9c7c2"/>
+<text x="822" y="631" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">Near-color  ·  25%</text>
+<circle cx="1135" cy="624" r="6" fill="#d56a46"/>
+<text x="1152" y="631" font-size="21" font-weight="400" text-anchor="start" style="fill:#172b35">Mixed  ·  10%</text>
+<text x="54" y="706" font-size="20" font-weight="400" text-anchor="start" style="fill:#657781">All occupancy, missing-area and background percentages are conditional on a photographed slot.</text>
+<text x="54" y="740" font-size="20" font-weight="400" text-anchor="start" style="fill:#657781">Source pre-crop: 12.5% of photo slots, with 5–10% target source-area loss.</text>
+</svg>

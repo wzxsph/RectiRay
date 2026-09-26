@@ -1,116 +1,249 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="880" viewBox="0 0 1700 880" role="img" aria-labelledby="title description">
-  <title id="title">PTRN V3 geometry and single-sampling render pipeline</title>
-  <desc id="description">A 224-pixel letterboxed phone photograph enters a DenseNet201 encoder with four feature scales. A 64-channel top-down spatial fusion feeds direct ordered corners and an auxiliary visible-region mask. Pooled encoder features and corner-edge geometry estimate the full-plane aspect ratio. The original photo is sampled once for rectification; the mask is not a second crop and no missing image content is invented.</desc>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#526781"/></marker>
-    <linearGradient id="photo" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#526270"/><stop offset="1" stop-color="#142a40"/></linearGradient>
-    <linearGradient id="film" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9d6de"/><stop offset="1" stop-color="#607788"/></linearGradient>
-    <style>
-      .bg{fill:#f7f9fc}.card{fill:#fff;stroke:#c4d0dc;stroke-width:2}.sub{fill:#f0f5fa;stroke:#d4dee8;stroke-width:1.5}
-      .ink{fill:#17324d;font-family:Arial,Helvetica,sans-serif}.muted{fill:#53677d;font-family:Arial,Helvetica,sans-serif}
-      .h1{font-size:32px;font-weight:700}.h2{font-size:20px;font-weight:700}.body{font-size:17px}.small{font-size:14px}
-      .blue{fill:#1b658e}.teal{fill:#096f66}.amber{fill:#9c5e11}.line{fill:none;stroke:#526781;stroke-width:3;marker-end:url(#arrow)}
-      .thin{fill:none;stroke:#8799aa;stroke-width:2}.pill{fill:#e4f1f7}
-    </style>
-  </defs>
-  <rect class="bg" width="1700" height="880"/>
-  <text class="ink h1" x="60" y="60">PTRN V3 · geometry-first radiograph recovery</text>
-  <text class="muted body" x="60" y="94">Research architecture · one prediction on the 224 × 224 view, one resampling of the original photograph</text>
-  <line x1="60" y1="118" x2="1640" y2="118" stroke="#c8d4df" stroke-width="2"/>
-
-  <rect class="card" x="60" y="160" width="225" height="425" rx="16"/>
-  <text class="ink h2" x="82" y="198">Phone photograph</text>
-  <text class="muted small" x="82" y="223">Original resolution retained</text>
-  <rect x="91" y="253" width="163" height="244" rx="8" fill="url(#photo)"/>
-  <path d="M108 310 L224 282 L239 444 L118 462 Z" fill="url(#film)" stroke="#eaf3f7" stroke-width="3"/>
-  <path d="M127 345 Q172 310 211 347 M130 373 Q178 342 217 383 M137 408 Q180 381 220 419" fill="none" stroke="#dfe9ee" stroke-width="7" opacity=".38"/>
-  <circle cx="108" cy="310" r="5" fill="#eaf3f7"/><circle cx="224" cy="282" r="5" fill="#eaf3f7"/><circle cx="239" cy="444" r="5" fill="#eaf3f7"/><circle cx="118" cy="462" r="5" fill="#eaf3f7"/>
-  <text class="muted small" x="82" y="536">Pixels + capture border</text>
-  <text class="muted small" x="82" y="557">stay available for rendering</text>
-
-  <path class="line" d="M285 371 H327"/>
-  <rect class="card" x="330" y="160" width="205" height="425" rx="16"/>
-  <text class="ink h2" x="352" y="198">Input view</text>
-  <text class="muted small" x="352" y="223">Isotropic letterbox</text>
-  <rect x="362" y="267" width="140" height="140" rx="6" fill="#13293c"/>
-  <path d="M379 286 L486 278 L490 392 L382 396 Z" fill="url(#film)" stroke="#e3eff4" stroke-width="2"/>
-  <path d="M393 326 Q428 307 472 332 M396 355 Q438 340 474 365" fill="none" stroke="#dfe9ee" stroke-width="6" opacity=".35"/>
-  <text class="ink h2" x="365" y="451">224 × 224 RGB</text>
-  <text class="muted small" x="352" y="491">ImageNet normalization</text>
-  <text class="muted small" x="352" y="514">Inverse transform saved</text>
-
-  <path class="line" d="M535 371 H572"/>
-  <rect class="card" x="575" y="160" width="360" height="425" rx="16"/>
-  <text class="ink h2" x="598" y="198">DenseNet201 encoder</text>
-  <text class="muted small" x="598" y="223">Frozen encoder and BatchNorm in head stage</text>
-  <rect class="sub" x="600" y="248" width="310" height="59" rx="9"/>
-  <rect x="615" y="261" width="31" height="31" fill="#d6e8f1" stroke="#1b658e" stroke-width="2"/>
-  <path d="M625 261 V292 M635 261 V292 M615 271 H646 M615 281 H646" stroke="#78a9c5" stroke-width="1"/>
-  <text class="ink body" x="660" y="273">conv2</text><text class="muted small" x="660" y="293">56 × 56 feature map</text>
-  <rect class="sub" x="600" y="321" width="310" height="59" rx="9"/>
-  <rect x="615" y="334" width="31" height="31" fill="#c4e5e3" stroke="#096f66" stroke-width="2"/>
-  <path d="M630 334 V365 M615 349 H646" stroke="#74bdb4" stroke-width="1"/>
-  <text class="ink body" x="660" y="346">conv3</text><text class="muted small" x="660" y="366">28 × 28 feature map</text>
-  <rect class="sub" x="600" y="394" width="310" height="59" rx="9"/>
-  <rect x="615" y="407" width="31" height="31" fill="#d9d7ef" stroke="#62629f" stroke-width="2"/>
-  <text class="ink body" x="660" y="419">conv4</text><text class="muted small" x="660" y="439">14 × 14 feature map</text>
-  <rect class="sub" x="600" y="467" width="310" height="59" rx="9"/>
-  <rect x="615" y="480" width="31" height="31" fill="#f5e3c7" stroke="#9c5e11" stroke-width="2"/>
-  <text class="ink body" x="660" y="492">conv5</text><text class="muted small" x="660" y="512">7 × 7 feature map</text>
-  <text class="muted small" x="598" y="554">Four scales; pooled conv5 feeds ratio residual</text>
-
-  <path class="line" d="M935 371 H972"/>
-  <rect class="card" x="975" y="160" width="286" height="425" rx="16"/>
-  <text class="ink h2" x="999" y="198">Spatial fusion</text>
-  <text class="muted small" x="999" y="223">Top-down, shared by corners and mask</text>
-  <rect class="sub" x="1000" y="263" width="236" height="73" rx="9"/>
-  <text class="ink body" x="1017" y="292">1 × 1 lateral maps</text>
-  <text class="blue small" x="1017" y="316">64 channels at each scale</text>
-  <path class="line" d="M1118 337 V370"/>
-  <rect class="sub" x="1000" y="373" width="236" height="73" rx="9"/>
-  <text class="ink body" x="1017" y="402">Upsample + sum</text>
-  <text class="muted small" x="1017" y="426">3 × 3 smoothing</text>
-  <path class="line" d="M1118 447 V480"/>
-  <rect class="pill" x="1000" y="483" width="236" height="65" rx="9"/>
-  <text class="ink body" x="1017" y="509">4 spatial logit maps</text>
-  <text class="blue small" x="1017" y="532">readout grid 56 × 56</text>
-
-  <path class="line" d="M1261 371 H1298"/>
-  <rect class="card" x="1300" y="160" width="340" height="425" rx="16"/>
-  <text class="ink h2" x="1323" y="198">Three model outputs</text>
-  <rect class="sub" x="1324" y="224" width="292" height="99" rx="9"/>
-  <rect x="1338" y="238" width="7" height="70" rx="3" fill="#1b658e"/>
-  <text class="ink body" x="1357" y="252">Ordered quad</text>
-  <text class="muted small" x="1357" y="274">Direct linear readout: TL, TR, BR, BL</text>
-  <text class="blue small" x="1357" y="296">Unbounded coordinates; no clipping</text>
-  <rect class="sub" x="1324" y="337" width="292" height="99" rx="9"/>
-  <rect x="1338" y="351" width="7" height="70" rx="3" fill="#096f66"/>
-  <text class="ink body" x="1357" y="365">Full-plane aspect ratio</text>
-  <text class="muted small" x="1357" y="387">Quad-edge log baseline + residual</text>
-  <text class="teal small" x="1357" y="409">Residual uses pooled conv5 features</text>
-  <rect class="sub" x="1324" y="450" width="292" height="99" rx="9"/>
-  <rect x="1338" y="464" width="7" height="70" rx="3" fill="#9c5e11"/>
-  <text class="ink body" x="1357" y="478">Visible-region mask</text>
-  <text class="muted small" x="1357" y="500">Auxiliary supervision, 1 × 1 head</text>
-  <text class="amber small" x="1357" y="522">Not a second hard crop</text>
-
-  <text class="ink h2" x="60" y="638">Rendering contract</text>
-  <path class="thin" d="M60 654 H1640"/>
-  <rect class="card" x="60" y="680" width="477" height="150" rx="14"/>
-  <circle cx="90" cy="714" r="17" fill="#1b658e"/><text x="85" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">1</text>
-  <text class="ink h2" x="118" y="721">Map back to photograph</text>
-  <text class="muted body" x="82" y="756">Invert the saved letterbox transform;</text>
-  <text class="muted body" x="82" y="781">keep predicted corners in photo coordinates.</text>
-  <path class="line" d="M537 755 H585"/>
-  <rect class="card" x="590" y="680" width="477" height="150" rx="14"/>
-  <circle cx="620" cy="714" r="17" fill="#096f66"/><text x="615" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">2</text>
-  <text class="ink h2" x="648" y="721">Solve visible rectification</text>
-  <text class="muted body" x="612" y="756">Use the quad and full-plane W/H;</text>
-  <text class="muted body" x="612" y="781">preserve only observed photo support.</text>
-  <path class="line" d="M1067 755 H1115"/>
-  <rect class="card" x="1120" y="680" width="520" height="150" rx="14"/>
-  <circle cx="1150" cy="714" r="17" fill="#9c5e11"/><text x="1145" y="721" fill="#fff" font-family="Arial" font-size="18" font-weight="700">3</text>
-  <text class="ink h2" x="1178" y="721">Sample original pixels once</text>
-  <text class="muted body" x="1142" y="756">One projective resample at output resolution.</text>
-  <text class="amber body" x="1142" y="781">Missing content is never hallucinated.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="950" viewBox="0 0 1500 950" role="img" aria-labelledby="title desc" xml:lang="en">
+<title id="title">RectiRay model and rendering architecture</title>
+<desc id="desc">Schematic, not real feature activations. An original-resolution photograph is letterboxed and normalized to a 224-pixel input. DenseNet201 produces 56 by 56 by 256, 28 by 28 by 512, 14 by 14 by 1792, and 7 by 7 by 1920 feature maps. One-by-one projections to 64 channels and top-down upsampling, addition, and 3-by-3 smoothing produce a shared four-channel spatial map. A flattened direct linear eight readout predicts ordered, unbounded corners. A separate one-by-one mask head is training-only. Pooled conv5 features and detached corners feed a ratio residual on an edge-log baseline. Four corners and full-plane ratio guide a single geometric resampling of the original photograph, yielding observed output and validity. A trusted original with verified provenance follows a separate pixel-exact keep route. Source contract: src/ptrn_hip/partial_model.py PartialModel.forward; src/ptrn_hip/spatial_model.py SpatialModel._spatial_logits; src/ptrn_hip/spatial_objectives.py RatioResidual.forward; src/ptrn_hip/partial_geometry.py rectify_visible.</desc>
+<defs>
+      <marker id="arrow-teal" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#087e8b"/></marker>
+      <marker id="arrow-ink" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#172b35"/></marker>
+      <marker id="arrow-coral" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#d56a46"/></marker>
+      <style>
+        text{font-family:"DejaVu Sans","Noto Sans CJK SC",sans-serif;fill:#172b35}
+        .title{font-size:36px;font-weight:700;letter-spacing:-.7px}
+        .subtitle{font-size:18px;fill:#657781}
+        .kicker{font-size:15px;fill:#087e8b;font-weight:700;letter-spacing:1.3px}
+        .head{font-size:24px;font-weight:700}
+        .label{font-size:20px;font-weight:650}
+        .body{font-size:18px}
+        .small{font-size:17px;fill:#657781}
+        .micro{font-size:15px;fill:#657781}
+        .teal{fill:#087e8b}.coral{fill:#d56a46}.muted{fill:#657781}
+      </style>
+    </defs>
+<rect x="0" y="0" width="1500" height="950" rx="0" fill="#faf9f6"/>
+<text class="title" x="55" y="57">From spatial features to a rectified photograph</text>
+<text class="subtitle" x="55" y="87">RectiRay · V3 research pipeline  /  geometry on a 224-pixel view; pixels from the original photograph</text>
+<line x1="55" y1="109" x2="1445" y2="109" stroke="#dbe1df" stroke-width="1.5"/>
+<text class="kicker" x="60" y="145">ORIGINAL PHOTO</text>
+<text class="kicker" x="265" y="145">NETWORK VIEW</text>
+<text class="kicker" x="460" y="145">ENCODER</text>
+<text class="kicker" x="735" y="145">SPATIAL DECODER</text>
+<text class="kicker" x="1204" y="145">PREDICTIONS</text>
+<line x1="55" y1="158" x2="1445" y2="158" stroke="#dbe1df" stroke-width="1"/>
+<rect x="69" y="194" width="146" height="225" rx="5" fill="#e7e9e6" stroke="#dbe1df" stroke-width="1.5"/>
+<rect x="76" y="202" width="132" height="209" rx="2" fill="#273b44"/>
+<path d="M95 230 L191 219 L197 391 L91 401Z" fill="#8ca5a9" stroke="#f6faf8" stroke-width="2.5"/>
+<path d="M111 288.5 Q142 268.5 180 292.5" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M111 320 Q142 300 180 324" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M111 351.5 Q142 331.5 180 355.5" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="95" cy="230" r="4.2" fill="#d56a46"/>
+<circle cx="191" cy="219" r="4.2" fill="#d56a46"/>
+<circle cx="197" cy="391" r="4.2" fill="#d56a46"/>
+<circle cx="91" cy="401" r="4.2" fill="#d56a46"/>
+<text class="body" x="60" y="453">Original RGB</text>
+<text class="small" x="60" y="476">full resolution · schematic</text>
+<path d="M216 306H252" fill="none" stroke="#172b35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<rect x="270" y="244" width="145" height="145" rx="3" fill="#edf0ed" stroke="#dbe1df" stroke-width="1.5"/>
+<g transform="translate(295.456 244) scale(0.644444)">
+<rect x="0" y="0" width="146" height="225" rx="5" fill="#e7e9e6" stroke="#dbe1df" stroke-width="1.5"/>
+<rect x="7" y="8" width="132" height="209" rx="2" fill="#273b44"/>
+<path d="M26 36 L122 25 L128 197 L22 207Z" fill="#8ca5a9" stroke="#f6faf8" stroke-width="2.5"/>
+<path d="M42 94.5 Q73 74.5 111 98.5" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M42 126 Q73 106 111 130" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M42 157.5 Q73 137.5 111 161.5" fill="none" stroke="#d8e2dd" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="26" cy="36" r="4.2" fill="#d56a46"/>
+<circle cx="122" cy="25" r="4.2" fill="#d56a46"/>
+<circle cx="128" cy="197" r="4.2" fill="#d56a46"/>
+<circle cx="22" cy="207" r="4.2" fill="#d56a46"/>
+</g>
+<text class="label" x="270" y="428">224 × 224 RGB</text>
+<text class="small" x="270" y="453">letterbox + normalize</text>
+<path d="M416 306H447" fill="none" stroke="#172b35" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<text class="head" x="460" y="186">DenseNet201</text>
+<text class="small" x="460" y="212">head stage: encoder + BN frozen</text>
+<rect x="478" y="222" width="52" height="52" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="473" y="227" width="52" height="52" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="468" y="232" width="52" height="52" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="485.333" y1="232" x2="485.333" y2="284" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="468" y1="249.333" x2="520" y2="249.333" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="502.667" y1="232" x2="502.667" y2="284" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="468" y1="266.667" x2="520" y2="266.667" stroke="#a4c4c4" stroke-width="1"/>
+<text class="label" x="541" y="256">conv2</text>
+<text class="small" x="541" y="278">56² × 256</text>
+<path d="M660 258H721" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="482.5" y="302.5" width="43" height="43" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="477.5" y="307.5" width="43" height="43" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="472.5" y="312.5" width="43" height="43" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="486.833" y1="312.5" x2="486.833" y2="355.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="472.5" y1="326.833" x2="515.5" y2="326.833" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="501.167" y1="312.5" x2="501.167" y2="355.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="472.5" y1="341.167" x2="515.5" y2="341.167" stroke="#a4c4c4" stroke-width="1"/>
+<text class="label" x="541" y="332">conv3</text>
+<text class="small" x="541" y="354">28² × 512</text>
+<path d="M660 334H721" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="487" y="383" width="34" height="34" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="482" y="388" width="34" height="34" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="477" y="393" width="34" height="34" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="488.333" y1="393" x2="488.333" y2="427" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="477" y1="404.333" x2="511" y2="404.333" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="499.667" y1="393" x2="499.667" y2="427" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="477" y1="415.667" x2="511" y2="415.667" stroke="#a4c4c4" stroke-width="1"/>
+<text class="label" x="541" y="408">conv4</text>
+<text class="small" x="541" y="430">14² × 1792</text>
+<path d="M660 410H721" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="491.5" y="463.5" width="25" height="25" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="486.5" y="468.5" width="25" height="25" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="481.5" y="473.5" width="25" height="25" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="489.833" y1="473.5" x2="489.833" y2="498.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="481.5" y1="481.833" x2="506.5" y2="481.833" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="498.167" y1="473.5" x2="498.167" y2="498.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="481.5" y1="490.167" x2="506.5" y2="490.167" stroke="#a4c4c4" stroke-width="1"/>
+<text class="label" x="541" y="484">conv5</text>
+<text class="small" x="541" y="506">7² × 1920</text>
+<path d="M660 486H721" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<text class="small" x="735" y="186">1×1→64 · ↑2×+add · 3×3</text>
+<text class="body" x="740" y="263">1 × 1</text>
+<rect x="816" y="229" width="48" height="48" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="811" y="234" width="48" height="48" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="827" y1="234" x2="827" y2="282" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="811" y1="250" x2="859" y2="250" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="843" y1="234" x2="843" y2="282" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="811" y1="266" x2="859" y2="266" stroke="#a4c4c4" stroke-width="1"/>
+<text class="small" x="797" y="224">56² × 64</text>
+<path d="M871 258H904" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<circle cx="920" cy="258" r="12" fill="#faf9f6" stroke="#087e8b" stroke-width="2"/>
+<text class="body teal" x="920" y="264" text-anchor="middle">+</text>
+<path d="M932 258H949" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="950" y="241" width="46" height="34" rx="0" fill="#fff" stroke="#087e8b" stroke-width="1.5"/>
+<text class="small teal" x="973" y="264" text-anchor="middle">3×3</text>
+<path d="M996 258H1005" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="1015" y="236" width="34" height="34" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1010" y="241" width="34" height="34" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="1021.33" y1="241" x2="1021.33" y2="275" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="252.333" x2="1044" y2="252.333" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1032.67" y1="241" x2="1032.67" y2="275" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="263.667" x2="1044" y2="263.667" stroke="#a4c4c4" stroke-width="1"/>
+<text class="body" x="740" y="339">1 × 1</text>
+<rect x="820.5" y="309.5" width="39" height="39" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="815.5" y="314.5" width="39" height="39" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="828.5" y1="314.5" x2="828.5" y2="353.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="815.5" y1="327.5" x2="854.5" y2="327.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="841.5" y1="314.5" x2="841.5" y2="353.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="815.5" y1="340.5" x2="854.5" y2="340.5" stroke="#a4c4c4" stroke-width="1"/>
+<text class="small" x="797" y="300">28² × 64</text>
+<path d="M871 334H904" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<circle cx="920" cy="334" r="12" fill="#faf9f6" stroke="#087e8b" stroke-width="2"/>
+<text class="body teal" x="920" y="340" text-anchor="middle">+</text>
+<path d="M932 334H949" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="950" y="317" width="46" height="34" rx="0" fill="#fff" stroke="#087e8b" stroke-width="1.5"/>
+<text class="small teal" x="973" y="340" text-anchor="middle">3×3</text>
+<path d="M996 334H1005" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="1015" y="314.5" width="29" height="29" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1010" y="319.5" width="29" height="29" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="1019.67" y1="319.5" x2="1019.67" y2="348.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="329.167" x2="1039" y2="329.167" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1029.33" y1="319.5" x2="1029.33" y2="348.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="338.833" x2="1039" y2="338.833" stroke="#a4c4c4" stroke-width="1"/>
+<text class="body" x="740" y="415">1 × 1</text>
+<rect x="825" y="390" width="30" height="30" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="820" y="395" width="30" height="30" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="830" y1="395" x2="830" y2="425" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="820" y1="405" x2="850" y2="405" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="840" y1="395" x2="840" y2="425" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="820" y1="415" x2="850" y2="415" stroke="#a4c4c4" stroke-width="1"/>
+<text class="small" x="797" y="376">14² × 64</text>
+<path d="M871 410H904" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<circle cx="920" cy="410" r="12" fill="#faf9f6" stroke="#087e8b" stroke-width="2"/>
+<text class="body teal" x="920" y="416" text-anchor="middle">+</text>
+<path d="M932 410H949" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="950" y="393" width="46" height="34" rx="0" fill="#fff" stroke="#087e8b" stroke-width="1.5"/>
+<text class="small teal" x="973" y="416" text-anchor="middle">3×3</text>
+<path d="M996 410H1005" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="1015" y="393" width="24" height="24" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1010" y="398" width="24" height="24" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="1018" y1="398" x2="1018" y2="422" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="406" x2="1034" y2="406" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1026" y1="398" x2="1026" y2="422" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="414" x2="1034" y2="414" stroke="#a4c4c4" stroke-width="1"/>
+<text class="body" x="740" y="491">1 × 1</text>
+<rect x="829" y="470" width="22" height="22" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="824" y="475" width="22" height="22" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="831.333" y1="475" x2="831.333" y2="497" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="824" y1="482.333" x2="846" y2="482.333" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="838.667" y1="475" x2="838.667" y2="497" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="824" y1="489.667" x2="846" y2="489.667" stroke="#a4c4c4" stroke-width="1"/>
+<text class="small" x="797" y="452">7² × 64</text>
+<path d="M871 486H904" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<path d="M904 486H949" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="950" y="469" width="46" height="34" rx="0" fill="#fff" stroke="#087e8b" stroke-width="1.5"/>
+<text class="small teal" x="973" y="492" text-anchor="middle">3×3</text>
+<path d="M996 486H1005" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<rect x="1015" y="471.5" width="19" height="19" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1010" y="476.5" width="19" height="19" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="1016.33" y1="476.5" x2="1016.33" y2="495.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="482.833" x2="1029" y2="482.833" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1022.67" y1="476.5" x2="1022.67" y2="495.5" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1010" y1="489.167" x2="1029" y2="489.167" stroke="#a4c4c4" stroke-width="1"/>
+<path d="M1047 486H1060V442H920V423" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<text class="body teal" x="1070" y="453">↑</text>
+<path d="M1047 410H1060V366H920V347" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<text class="body teal" x="1070" y="377">↑</text>
+<path d="M1047 334H1060V290H920V271" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<text class="body teal" x="1070" y="301">↑</text>
+<path d="M1047 258H1080" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<text class="small teal" x="1046" y="214">1 × 1 → 4</text>
+<rect x="1108" y="215" width="52" height="52" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1103" y="220" width="52" height="52" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1098" y="225" width="52" height="52" rx="2" fill="#dceceb" stroke="#b8d4d4" stroke-width="1.5"/>
+<rect x="1093" y="230" width="52" height="52" rx="2" fill="#f8fcfb" stroke="#087e8b" stroke-width="1.5"/>
+<line x1="1110.33" y1="230" x2="1110.33" y2="282" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1093" y1="247.333" x2="1145" y2="247.333" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1127.67" y1="230" x2="1127.67" y2="282" stroke="#a4c4c4" stroke-width="1"/>
+<line x1="1093" y1="264.667" x2="1145" y2="264.667" stroke="#a4c4c4" stroke-width="1"/>
+<text class="label" x="1065" y="187">Shared map</text>
+<text class="small" x="1065" y="322">4 ch · 56²</text>
+<path d="M1164 257H1192" fill="none" stroke="#d56a46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-coral)"/>
+<text class="head coral" x="1204" y="223">Ordered corners</text>
+<text class="small" x="1204" y="252">56² pool · flat · Linear 8</text>
+<text class="body" x="1204" y="278">TL  TR  BR  BL · unbounded</text>
+<path d="M1234 302L1295 296L1302 329L1230 333Z" fill="none" stroke="#d56a46" stroke-width="2.2"/>
+<circle cx="1234" cy="302" r="3.5" fill="#d56a46"/>
+<circle cx="1295" cy="296" r="3.5" fill="#d56a46"/>
+<circle cx="1302" cy="329" r="3.5" fill="#d56a46"/>
+<circle cx="1230" cy="333" r="3.5" fill="#d56a46"/>
+<text class="small coral" x="1204" y="355">direct coordinate readout</text>
+<path d="M1164 278H1190V390H1198" fill="none" stroke="#657781" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<text class="label" x="1204" y="386">Visible-film mask</text>
+<text class="small" x="1204" y="410">1 × 1 convolution</text>
+<text class="small teal" x="1204" y="434">train-only auxiliary; no crop</text>
+<rect x="1204" y="447" width="41" height="29" rx="2" fill="#eaf3f2" stroke="#8dbabb" stroke-width="1.5"/>
+<rect x="1227" y="452" width="13" height="18" rx="1" fill="#9fcdca"/>
+<line x1="1057" y1="502" x2="1445" y2="502" stroke="#dbe1df" stroke-width="1.5"/>
+<text class="kicker" x="1062" y="529">FULL-PLANE RATIO</text>
+<text class="body" x="1062" y="554">GAP conv5 (1920) + detached corners</text>
+<text class="body coral" x="1062" y="580">edge-log baseline + MLP δ → log(W/H)</text>
+<text class="small" x="1062" y="604">exp → W/H · not visible-crop ratio</text>
+<path d="M647 486V592H1045" fill="none" stroke="#657781" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)" stroke-dasharray="6 5"/>
+<path d="M1321 332H1458V551H1439" fill="none" stroke="#657781" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)" stroke-dasharray="6 5"/>
+<line x1="55" y1="645" x2="1445" y2="645" stroke="#dbe1df" stroke-width="1.5"/>
+<text class="kicker" x="60" y="675">RENDER AT ORIGINAL RESOLUTION</text>
+<text class="body coral" x="692" y="702">quad + full-plane W / H</text>
+<path d="M1260 611V689H925V715" fill="none" stroke="#d56a46" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-coral)"/>
+<path d="M69 305H45V771H635" fill="none" stroke="#172b35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)"/>
+<rect x="653" y="716" width="307" height="127" rx="6" fill="#fff" stroke="#b9cfcd" stroke-width="1.6"/>
+<text class="head" x="678" y="752">Geometry sampler</text>
+<text class="body" x="678" y="782">one photo-to-output mapping</text>
+<path d="M691 813H918" fill="none" stroke="#087e8b" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)"/>
+<path d="M960 778H1017" fill="none" stroke="#d56a46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-coral)"/>
+<rect x="1033" y="721" width="192" height="117" rx="3" fill="#e8eceb" stroke="#dbe1df" stroke-width="1.5"/>
+<rect x="1050" y="733" width="158" height="92" rx="0" fill="#a2b8b9"/>
+<path d="M1060 744L1198 739L1198 811L1061 814Z" fill="#405862"/>
+<path d="M1075 774Q1123 749 1187 779" fill="none" stroke="#d3e1dc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="label" x="1034" y="863">Observed output</text>
+<text class="small" x="1034" y="886">+ pixel-validity mask</text>
+<text class="small" x="1239" y="762">Unphotographed pixels</text>
+<text class="small" x="1239" y="785">remain absent</text>
+<path d="M45 775V919H636" fill="none" stroke="#657781" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-ink)" stroke-dasharray="6 5"/>
+<text class="small" x="653" y="919">Verified provenance</text>
+<path d="M856 913H945" fill="none" stroke="#087e8b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-teal)" stroke-dasharray="6 5"/>
+<text class="body teal" x="962" y="919">Pixel-exact original keep path</text>
+<text class="micro" x="60" y="941">Schematic tensors, not measured activations</text>
 </svg>
