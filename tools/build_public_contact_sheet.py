@@ -10,10 +10,11 @@ Run with KERAS_BACKEND=torch and PYTHONPATH=src on a CUDA machine::
     python tools/build_public_contact_sheet.py \
       --av-root "$AV_V2_RAW" --fraiwan-root "$FRAIWAN_V2_IMAGES" \
       --bundle "$LOCAL_BUNDLE" --branch "$BRANCH_PLUS2250" \
-      --output-en docs/figures/examples/contact-sheet-100.png \
-      --output-zh docs/figures/examples/zh-CN/contact-sheet-100.png \
-      --local-report .local/contact-sheet100/audit.local.json
+      --output-en .local/contact-sheet100-rebuild/en.png \
+      --output-zh .local/contact-sheet100-rebuild/zh-CN.png \
+      --local-report .local/contact-sheet100-rebuild/audit.local.json
 
+Use fresh output paths; existing images and audit files are never overwritten.
 No private phone photograph, case annotation or COCO photo is read.
 """
 
