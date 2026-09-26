@@ -44,6 +44,7 @@ class Figure:
         self.raw(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{fill}"/>')
     def header(self,number,title,subtitle):
         self.text(48,48,number,18,700,TEAL)
+        self.text(self.width-48,48,'RectiRay',20,700,INK,'end')
         self.text(48,98,title,36,700)
         self.text(48,136,subtitle,22,color=MUTED)
         self.line(48,162,self.width-48,162)
@@ -177,7 +178,7 @@ def recipe(zh):
     c=lambda en,cn:cn if zh else en
     title=c('Mostly large, complete films. Some difficult edges.','大部分片子占幅较大、内容完整，同时保留困难边缘')
     f=Figure(780,title,'Targets only: 20% trusted-original slots; photo occupancy bins 20/30/35/10/5%; missing-area bins 80/12/6/2%; backgrounds 40/25/25/10%. Realized sampling can differ.',zh)
-    f.header(c('04 / TRAINING RECIPE','04 / 训练配方'),title,c('Targets for the new branch; realized scene frequencies require an audit.','新分支的配方目标；实际采样频率须以场景审计为准。'))
+    f.header(c('04 / TRAINING RECIPE','04 / 训练配方'),title,c('Training recipe targets; realized scene frequencies require an audit.','训练配方目标；实际采样频率须以场景审计为准。'))
     f.text(50,219,c('Film occupancy within photograph','片区占照片面积'),25,700)
     bins=['90–98%','75–90%','50–75%','30–50%','10–30%']; probs=[20,30,35,10,5]
     sizes=[.95,.825,.625,.4,.2]

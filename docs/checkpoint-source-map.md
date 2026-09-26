@@ -15,9 +15,9 @@ supersedes: null
 
 | 阶段 | 私有备份 |
 |---|---|
-| 空间头 1250／5000 | [spatial-v2](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-spatial-v2-v1.0.0) |
-| 完整流水线 1250／2000／5000 | [pipeline-v1](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-pipeline-v1-v1.0.0) |
-| 从父 2000 步出发的 +2000／+2250 | [step2000-branch](https://github.com/wzxsph/ptrn-hip/releases/tag/backup-ptrn-step2000-branch-v1.0.0) |
+| 空间头 1250／5000 | [spatial-v2](https://github.com/wzxsph/RectiRay/releases/tag/backup-ptrn-spatial-v2-v1.0.0) |
+| 完整流水线 1250／2000／5000 | [pipeline-v1](https://github.com/wzxsph/RectiRay/releases/tag/backup-ptrn-pipeline-v1-v1.0.0) |
+| 从父 2000 步出发的 +2000／+2250 | [step2000-branch](https://github.com/wzxsph/RectiRay/releases/tag/backup-ptrn-step2000-branch-v1.0.0) |
 
 这些备份只供私有研究字节保全；原始副本也在主项目的
 [私有备份 Pre-release](https://github.com/wzxsph/hip-xray-ai/releases/tag/backup-ptrn-workflows-20260926-v1.0.0)。
