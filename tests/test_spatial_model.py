@@ -51,8 +51,19 @@ def test_arm_forward_cache_loss_and_optimizer(assets, arm):
     assert torch.isfinite(online).all()
     assert not model.encoder.trainable_weights
     if arm == "spatial_heatmap":
-        # Uniform initial logits are intentionally finite but not a legal quad.
-        torch.testing.assert_close(online, torch.full_like(online, 111.5), atol=1e-4, rtol=0)
+        # The zero-initialized readout must give the same uniform heatmap to
+        # every corner. Its FP32 reduction can vary slightly across CPUs.
+        logits = model._spatial_logits(features)
+        torch.testing.assert_close(logits, torch.zeros_like(logits), atol=0, rtol=0)
+        centre = (model.size - 1) / 2
+        corner_agreement_budget = 4 * torch.finfo(online.dtype).eps * centre
+        torch.testing.assert_close(
+            online, online[:, :1].expand_as(online), atol=corner_agreement_budget, rtol=0,
+        )
+        fp32_reduction_budget = 8 * torch.finfo(online.dtype).eps * (model.size - 1)
+        torch.testing.assert_close(
+            online, torch.full_like(online, centre), atol=fp32_reduction_budget, rtol=0,
+        )
     target = torch.tensor([[[12., 15.], [210., 14.], [207., 201.], [10., 203.]]]).repeat(2, 1, 1)
     loss = spatial.coordinate_loss(cached, target, 224)
     assert torch.isfinite(loss)
