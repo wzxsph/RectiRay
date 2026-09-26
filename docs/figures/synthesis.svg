@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title description">
+  <title id="title">Deterministic synthetic photographed-view generation</title>
+  <desc id="description">A source radiograph is projected by a homography. Seeded or stratified controls set visible film occupancy, missing content, background, capture material and appearance before the photo is produced; geometry mode can depend on occupancy. Geometry yields full-plane ordered corners, visible mask and aspect ratio as labels. About twenty percent of the recipe is a direct-original route. This schematic contains no patient image.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#5b6e80"/></marker>
+    <linearGradient id="source" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dce5eb"/><stop offset="1" stop-color="#667988"/></linearGradient>
+    <style>
+      .bg{fill:#f7f9fc}.card{fill:#fff;stroke:#c4d0dc;stroke-width:2}.sub{fill:#eff5f9;stroke:#d6e0e9;stroke-width:1.5}
+      .ink{fill:#18324c;font-family:Arial,Helvetica,sans-serif}.muted{fill:#52677b;font-family:Arial,Helvetica,sans-serif}
+      .h1{font-size:31px;font-weight:700}.h2{font-size:20px;font-weight:700}.body{font-size:17px}.small{font-size:14px}
+      .blue{fill:#1c658e}.teal{fill:#096f66}.amber{fill:#985d13}
+      .line{fill:none;stroke:#5b6e80;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="820"/>
+  <text class="ink h1" x="55" y="60">Deterministic synthetic photographed views</text>
+  <text class="muted body" x="55" y="94">The scene and its ground truth are generated together; recipe probabilities are design targets</text>
+  <line x1="55" y1="116" x2="1545" y2="116" stroke="#c8d4df" stroke-width="2"/>
+
+  <rect class="card" x="55" y="150" width="290" height="228" rx="15"/>
+  <text class="ink h2" x="78" y="185">Reference film</text>
+  <text class="muted small" x="78" y="208">Full source canvas and dimensions</text>
+  <rect x="129" y="224" width="142" height="122" rx="5" fill="url(#source)" stroke="#50687a" stroke-width="2"/>
+  <path d="M150 249 Q198 229 247 250 M154 274 Q195 260 249 278 M159 306 Q198 288 245 312" fill="none" stroke="#eaf1f5" stroke-width="8" opacity=".35"/>
+  <path class="line" d="M345 265 H405"/>
+
+  <rect class="card" x="410" y="150" width="290" height="228" rx="15"/>
+  <text class="ink h2" x="433" y="185">Projective placement</text>
+  <text class="muted small" x="433" y="208">Known source → photo homography</text>
+  <rect x="466" y="226" width="178" height="121" rx="4" fill="#d9e7ed" stroke="#b2c5d1" stroke-width="2"/>
+  <path d="M489 255 L607 235 L625 327 L506 335 Z" fill="url(#source)" stroke="#1c658e" stroke-width="3"/>
+  <circle cx="489" cy="255" r="5" fill="#1c658e"/><circle cx="607" cy="235" r="5" fill="#1c658e"/><circle cx="625" cy="327" r="5" fill="#1c658e"/><circle cx="506" cy="335" r="5" fill="#1c658e"/>
+  <path class="line" d="M700 265 H760"/>
+
+  <rect class="card" x="765" y="150" width="290" height="228" rx="15"/>
+  <text class="ink h2" x="788" y="185">Compose capture</text>
+  <text class="muted small" x="788" y="208">Apply five scene controls</text>
+  <rect class="sub" x="790" y="226" width="240" height="121" rx="8"/>
+  <path d="M809 305 L930 243 L1007 295 L887 338 Z" fill="#d8e8ec" stroke="#7796a5" stroke-width="2"/>
+  <path d="M811 297 L927 238 L1003 290" fill="none" stroke="#1c658e" stroke-width="5"/>
+  <path d="M841 324 L876 310 M961 274 L989 291" fill="none" stroke="#ab7130" stroke-width="4"/>
+  <text class="muted small" x="796" y="366">Geometry, material and appearance</text>
+  <path class="line" d="M1055 265 H1115"/>
+
+  <rect class="card" x="1120" y="150" width="425" height="228" rx="15"/>
+  <text class="ink h2" x="1143" y="185">Synthetic phone photo</text>
+  <text class="muted small" x="1143" y="208">One rendered view at a fixed scene seed</text>
+  <rect x="1168" y="224" width="148" height="125" rx="5" fill="#344e5e"/>
+  <path d="M1190 260 L1277 239 L1298 315 L1204 327 Z" fill="url(#source)" stroke="#d9e8ee" stroke-width="2"/>
+  <path d="M1190 260 L1277 239 L1298 315 L1204 327 Z" fill="none" stroke="#e4f1f5" stroke-width="1"/>
+  <path d="M1182 245 H1302 M1182 334 H1302" stroke="#7294a5" stroke-width="2" opacity=".7"/>
+  <text class="muted small" x="1341" y="259">Visible source</text>
+  <text class="muted small" x="1341" y="282">+ surrounding scene</text>
+  <text class="muted small" x="1341" y="305">+ capture artifacts</text>
+
+  <text class="ink h2" x="55" y="426">Scene controls and strata</text>
+  <text class="muted small" x="339" y="425">Seeded or stratified before rendering; geometry mode can follow occupancy</text>
+  <rect class="card" x="55" y="447" width="278" height="184" rx="13"/>
+  <rect x="55" y="447" width="278" height="10" rx="5" fill="#1c658e"/>
+  <text class="ink h2" x="75" y="489">Occupancy</text>
+  <text class="muted small" x="75" y="518">Film area in photo</text>
+  <text class="blue body" x="75" y="550">90–98 · 75–90 · 50–75%</text>
+  <text class="blue body" x="75" y="578">30–50 · 10–30%</text>
+  <text class="muted small" x="75" y="607">Targets: 20 / 30 / 35 / 10 / 5%</text>
+
+  <rect class="card" x="352" y="447" width="278" height="184" rx="13"/>
+  <rect x="352" y="447" width="278" height="10" rx="5" fill="#096f66"/>
+  <text class="ink h2" x="372" y="489">Defect</text>
+  <text class="muted small" x="372" y="518">Missing full-plane content</text>
+  <text class="teal body" x="372" y="550">Intact · mild</text>
+  <text class="teal body" x="372" y="578">moderate · severe</text>
+  <text class="muted small" x="372" y="607">Targets: 80 / 12 / 6 / 2%</text>
+
+  <rect class="card" x="649" y="447" width="278" height="184" rx="13"/>
+  <rect x="649" y="447" width="278" height="10" rx="5" fill="#6c619c"/>
+  <text class="ink h2" x="669" y="489">Background</text>
+  <text class="muted small" x="669" y="518">Surrounding context</text>
+  <text class="body" x="669" y="550" fill="#584d8b" font-family="Arial">Viewer · COCO</text>
+  <text class="body" x="669" y="578" fill="#584d8b" font-family="Arial">near-color · mixed</text>
+  <text class="muted small" x="669" y="607">Targets: 40 / 25 / 25 / 10%</text>
+
+  <rect class="card" x="946" y="447" width="278" height="184" rx="13"/>
+  <rect x="946" y="447" width="278" height="10" rx="5" fill="#985d13"/>
+  <text class="ink h2" x="966" y="489">Material</text>
+  <text class="muted small" x="966" y="518">Capture surface</text>
+  <text class="amber body" x="966" y="550">Screen or film</text>
+  <text class="muted small" x="966" y="607">Separately seeded capture choice</text>
+
+  <rect class="card" x="1243" y="447" width="302" height="184" rx="13"/>
+  <rect x="1243" y="447" width="302" height="10" rx="5" fill="#617587"/>
+  <text class="ink h2" x="1263" y="489">Appearance</text>
+  <text class="muted small" x="1263" y="518">Capture degradation</text>
+  <text class="body" x="1263" y="550" fill="#415d73" font-family="Arial">Clear · light</text>
+  <text class="body" x="1263" y="578" fill="#415d73" font-family="Arial">medium · strong</text>
+  <text class="muted small" x="1263" y="607">Separate appearance seed</text>
+
+  <rect x="55" y="670" width="1490" height="107" rx="14" fill="#e9f2f5" stroke="#bdd0d9" stroke-width="2"/>
+  <text class="ink h2" x="80" y="706">Ground truth travels with the view</text>
+  <text class="muted body" x="80" y="737">Full-plane TL / TR / BR / BL quad  ·  visible-film mask  ·  full-plane W/H  ·  source-to-photo mapping</text>
+  <text class="muted small" x="80" y="762">About 20% of the recipe routes the original image through directly. Published image panels use only verified CC BY 4.0 sources.</text>
+</svg>
