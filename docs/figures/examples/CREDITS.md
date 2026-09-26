@@ -1,5 +1,7 @@
 # Credits and audit for the six synthetic examples
 
+[简体中文图与来源说明](zh-CN/CREDITS.md) · [中文总览图](zh-CN/overview.webp)
+
 These six panels are fixed illustrations of the research pipeline, not an accuracy sample. Source radiographs come only from these versioned datasets:
 
 - Bassem Haddad et al., [*Acetabular-vision hip developmental dysplasia’s (AV-DDH), version 2*](https://data.mendeley.com/datasets/4gvcb6gmh2/2), DOI [10.17632/4gvcb6gmh2.2](https://doi.org/10.17632/4gvcb6gmh2.2), **CC BY 4.0** as stated on the dataset page.
