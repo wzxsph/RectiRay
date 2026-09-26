@@ -1,0 +1,11 @@
+{
+  "version": "ptrn-pipeline-v1",
+  "validated_hardware": {"gpu": "RTX 4090 D", "gpu_memory_gib": 24, "cpu_quota": 16},
+  "training": {"input_size": 224, "stage": "head", "batch": 64, "effective_batch": 64, "gc_interval": 4, "double_buffer": true},
+  "evaluation": {"batch": 1, "backend": "cuda_graph", "cudnn_tf32": true, "matmul_tf32": false, "count": 5736, "max_active_jobs": 1},
+  "cpu": {"main_threads": 4, "prepare_workers_without_metrics": 12, "prepare_workers_with_metrics": 8, "metric_workers": 4},
+  "cache_gib": {"total": 20, "development": 12, "training_all_versions": 8, "minimum_free_disk": 15, "ram_input_bank": 8, "pinned_buffers": 1, "memory_pressure_limit": 48},
+  "gpu_budget_gib": 22,
+  "reference_renderer": "opencv-v3",
+  "gpu_renderer": {"version": "torch-photo-v1", "default_enabled": false, "reason": "Three paired 1024-view trials failed the 10% gain criterion against the persistent CPU pipeline."}
+}

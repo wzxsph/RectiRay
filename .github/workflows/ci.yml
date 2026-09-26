@@ -1,0 +1,36 @@
+name: synthetic-ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  cpu-tests:
+    runs-on: ubuntu-latest
+    env:
+      KERAS_BACKEND: torch
+      CUDA_VISIBLE_DEVICES: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install 'torch==2.12.1+cpu' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'keras==3.15.1' 'h5py==3.14.0' 'opencv-python-headless==5.0.0.93' 'numpy==2.4.6' 'Pillow==12.2.0' 'PyYAML==6.0.3' 'pytest==9.1.1'
+          python -m pip install --no-deps -e .
+      - name: Verify tracked file boundary
+        run: |
+          python - <<'PY'
+          import pathlib, subprocess
+          files = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          forbidden = ('.local/', 'output/', 'datasets/', 'reference/', 'models/releases/')
+          weights = ('.pt', '.pth', '.ckpt', '.onnx', '.h5', '.keras')
+          bad = [name for name in files if name and (name.startswith(forbidden) or pathlib.Path(name).suffix.lower() in weights)]
+          if bad:
+              raise SystemExit('Forbidden tracked assets: ' + ', '.join(bad))
+          PY
+      - name: Run synthetic tests
+        run: python -m pytest -q
