@@ -5,7 +5,8 @@
 | 类型 | 文档 | 用途 |
 | --- | --- | --- |
 | 视觉说明 | [RectiRay 图表与生成说明](figures/README.md) | 中英文架构、几何、合成配方与公开合成效果图；包含来源和复现入口 |
-| 当前入口 | [复现指南](reproducibility.md)、[代码地图](code-map.md)、[关键权重与源码对应表](checkpoint-source-map.md) | 环境、训练与恢复、资产绑定、完整开发验证与模块职责；权重在分阶段私有备份中 |
+| 当前入口 | [复现指南（中文）](../i18n/docs/reproducibility.zh-CN.md) / [English](reproducibility.md)、[代码地图](code-map.md)、[关键权重与源码对应表](checkpoint-source-map.md) | 数据目录、准备与检查工具、训练与恢复命令、完整开发验证；权重在分阶段私有备份中 |
+| 研究回顾 | [数据驱动的研究历程（中文）](../i18n/docs/research-journey.zh-CN.md) / [English](research-journey.md) | 从实拍过裁回查数据、降低缺损及继续训练的依据与局限；不把多因素调整写成单一因果 |
 | 研究权重备份 | [空间头](../models/release-notes/backup-ptrn-spatial-v2-v1.0.0.md)、[完整流水线](../models/release-notes/backup-ptrn-pipeline-v1-v1.0.0.md)、[2000 步分支](../models/release-notes/backup-ptrn-step2000-branch-v1.0.0.md) | 三个私有 Pre-release 的来源、角色、限制与资产核验要求 |
 | 当前实现协议 | [可见平面 V3](partial-v3.md)、[并行流水线](pipeline-v1.md) | 模型与几何接口、训练/评估调度；以实际源码与检查点绑定为准 |
 | 运行经验 | [AutoDL 与 GPU 训练实践](autodl-training-practice.md) | 性能、并发问题、恢复审计和关机/无卡下载流程；其中的时间点状态为历史快照 |
