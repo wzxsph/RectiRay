@@ -60,7 +60,7 @@ Use the repository's ignored `.local/` directory. Inputs and generated bundles s
   reviews/                   # local metrics and comparison pages
 ```
 
-The three private [weight backups](checkpoint-source-map.md) contain trained checkpoints and metadata. They do **not** contain the original data bundle, the two initialization assets or the saved starting protocol. Obtain those separately through authorized access; a Release download alone is insufficient. Dataset sources and permissions are listed in [THIRD_PARTY](../THIRD_PARTY.md).
+This public source repository does not distribute model weights. The three historical stage backups, containing trained checkpoints and metadata, are retained in a separate controlled private archive; the [checkpoint/source map](checkpoint-source-map.md) records the current location, hashes and source bindings. Those stage backups do **not** contain the original data bundle, the two initialization assets or the saved starting protocol. Obtain the required assets separately through authorized access; a backup download alone is insufficient. Dataset sources and permissions are listed in [THIRD_PARTY](../THIRD_PARTY.md).
 
 ## 3. Prepare new data, without changing the split
 

@@ -42,6 +42,6 @@
 
 ## 复现与来源
 
-仓库提供源码及不依赖病例图的合成检查；完整训练或评估仍需另行获授权的源片、背景和权重，**这些都不在 Git 中**。从[复现指南](docs/reproducibility.zh-CN.md)查看数据目录、命令和预期产物；[研究历程](docs/research-journey.zh-CN.md)解释实拍审阅如何促使我们调整数据配方。研究权重是私有备份，不是可部署或已获临床验证的模型。
+仓库提供源码及不依赖病例图的合成检查；完整训练或评估仍需另行获授权的源片、背景和权重，**这些都不在 Git 中**。从[复现指南](docs/reproducibility.zh-CN.md)查看数据目录、命令和预期产物；[研究历程](docs/research-journey.zh-CN.md)解释实拍审阅如何促使我们调整数据配方。本公开源码仓库不提供模型下载；研究权重保存在独立受控私有备份中，不是可部署或已获临床验证的模型。[权重与源码对应表](../docs/checkpoint-source-map.md)保留其摘要和源码绑定。
 
 示例影像只选自 AV-DDH v2 和 Fraiwan v2；其页面标注 **CC BY 4.0**，入图素材又经过逐张像素与元数据审查。MTDDH 原始版本的再分发条款尚未直接核实，因此仓库效果图不使用它。COCO 照片遵守各自的 Flickr 条款，也不随仓库分发。详见[效果图署名](../docs/figures/examples/zh-CN/CREDITS.md)、[第三方条款](../THIRD_PARTY.md)及[最初的 PTRN 胸片研究](https://arxiv.org/abs/2210.05954)。[Apache-2.0 许可](../LICENSE)只覆盖本仓库有权授权的源码与文档。

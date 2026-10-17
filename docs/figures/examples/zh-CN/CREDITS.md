@@ -9,7 +9,9 @@
 - Bassem Haddad 等，[*Acetabular-vision hip developmental dysplasia’s (AV-DDH), version 2*](https://data.mendeley.com/datasets/4gvcb6gmh2/2)，DOI [10.17632/4gvcb6gmh2.2](https://doi.org/10.17632/4gvcb6gmh2.2)。数据集页面标为 **CC BY 4.0**。
 - Mohammad Fraiwan、Noran Al-Kofahi、Omar Hanatleh、Ali Ibnian，[*A dataset of DDH x-ray images, version 2*](https://data.mendeley.com/datasets/jf3pv98m9g/2)，DOI [10.17632/jf3pv98m9g.2](https://doi.org/10.17632/jf3pv98m9g.2)。数据集页面标为 **CC BY 4.0**。
 
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 要求注明来源和修改。这些图片在原片上叠加模拟拍摄场景、干扰、角点线和模型取图；AV-DDH 三例还在合成前遮盖了原图两处通用阅片器页脚文字。没有发布原始文件名、文件路径映射、原片、标注、患者信息或实拍资料。
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 要求注明来源和修改。这些图片在原片上叠加模拟拍摄场景、干扰、角点线和模型取图；AV-DDH 三例还在合成前遮盖了原图两处通用阅片器页脚文字。
+
+维护者于 2026-10-17 明确授权保留这六例已审查公开夹具及其溯源。下表的数据集版本和排序序号可以定位公开数据集中的源文件名，**不代表匿名化**。仓库文件不写入原始文件名、私有病例映射、原始数据集标注或人口学字段；47 张私人手机实拍、其源文件映射及患者／分组信息仍不公开。该授权只覆盖这六例已审查公开夹具，不扩展到其他素材。
 
 | 案例 | 数据集；该版本图像目录按相对路径排序后的零基序号 | 固定种子；视图序号 | 场景与实际占幅 |
 | --- | --- | --- | --- |

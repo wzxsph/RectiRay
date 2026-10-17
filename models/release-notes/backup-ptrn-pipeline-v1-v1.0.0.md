@@ -1,5 +1,7 @@
 # [PRIVATE RESEARCH BACKUP] PTRN pipeline v1
 
+> **Storage update · 2026-10-17.** The original assets for this historical stage are retained in the maintainer-controlled [private archive](https://github.com/wzxsph/hip-xray-ai/releases/tag/backup-rectiray-prepublic-20261017-v1.0.0); access requires authorization. This public source repository provides no model downloads. The original research notes below are preserved for provenance.
+
 **Channel:** private Pre-release; `latest=false`
 
 **Role:** byte preservation for pipeline 1,250-, 2,000-, and 5,000-step checkpoints. This is not a deployable model release.
